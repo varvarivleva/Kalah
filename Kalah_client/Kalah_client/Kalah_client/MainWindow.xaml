@@ -1,12 +1,10 @@
-﻿<Window x:Class="Kalah_client.MainWindow"
+﻿<Window x:Class="KalahClient.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Kalah_client"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Kalah Client" Height="400" Width="400">
+	<Grid>
+		<Button Name="PlayWithPlayerButton" Content="Играть с игроком" Click="PlayWithPlayerButton_Click" Width="150" Height="50" VerticalAlignment="Top" Margin="10"/>
+		<Button Name="PlayWithComputerButton" Content="Играть с компьютером" Click="PlayWithComputerButton_Click" Width="150" Height="50" VerticalAlignment="Top" Margin="10,70,0,0"/>
+		<TextBox Name="LogTextBox" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Width="350" Height="200" VerticalAlignment="Bottom" Margin="10"/>
+	</Grid>
 </Window>
