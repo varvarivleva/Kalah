@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "DistVvgOY4R4wg9CRTuDU31gjY1DtDyEz+3QavI6+Ft6pMPcWF0CBSujCoXZ63FHjfifDhVw5F2TK9C++0hwbw==",
+  "dgSpecHash": "QYlULbAKbew=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Varvara\\Desktop\\work\\4 курс\\РРП\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Kalah_server.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Kalah_server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\user\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
+  ],
   "logs": []
 }
