@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 
 class KalahServer
@@ -16,7 +17,7 @@ class KalahServer
     static void Main()
     {
         Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        serverSocket.Bind(new IPEndPoint(IPAddress.Parse("192.168.1.101"), 4563));
+        serverSocket.Bind(new IPEndPoint(IPAddress.Parse("192.168.200.13"), 4563));
         serverSocket.Listen(10);
         Console.WriteLine("Сервер запущен, ожидает подключения...");
 
@@ -40,6 +41,7 @@ class KalahServer
         }
     }
 
+    // Обработка клиента
     static void HandleClient(Socket clientSocket)
     {
         lock (lockObj)
@@ -59,34 +61,30 @@ class KalahServer
                 string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Console.WriteLine($"Получено от клиента: {receivedData}");
 
-                if (receivedData == "PLAY_WITH_PLAYER")
+                // Обработка авторизации
+                if (receivedData.Contains("\"action\":\"login\""))
                 {
-                    lock (lockObj)
+                    var requestData = JsonSerializer.Deserialize<LoginRequest>(receivedData);
+                    bool isAuthorized = Database.Authorize(requestData.Username, requestData.Password);
+
+                    string response = isAuthorized ? "OK" : "FAIL";
+                    SendMessage(clientSocket, response);
+
+                    if (isAuthorized)
                     {
-                        Socket opponent = FindOpponent(clientSocket);
-                        if (opponent != null)
-                        {
-                            playerPairs[clientSocket] = opponent;
-                            playerPairs[opponent] = clientSocket;
-
-                            var game = new KalahGame();
-                            games[clientSocket] = game;
-                            games[opponent] = game;
-
-                            SendMessage(clientSocket, "START_GAME_WITH_PLAYER");
-                            SendMessage(opponent, "START_GAME_WITH_PLAYER");
-                        }
-                        else
-                        {
-                            SendMessage(clientSocket, "WAITING_FOR_PLAYER");
-                        }
+                        // Сохраняем пользователя в файл БД
+                        File.AppendAllText("users.txt", $"{requestData.Username},{requestData.Password},{0}\n");
                     }
                 }
-                else if (receivedData == "PLAY_WITH_COMPUTER")
+                // Обработка игры с другим игроком
+                else if (receivedData.Contains("\"action\":\"play_with_player\""))
                 {
-                    var game = new KalahGame();
-                    games[clientSocket] = game;
-                    SendMessage(clientSocket, "START_GAME_WITH_COMPUTER");
+                    HandleMultiplayerRequest(clientSocket);
+                }
+                // Обработка игры с компьютером
+                else if (receivedData.Contains("\"action\":\"play_with_computer\""))
+                {
+                    StartGameWithAI(clientSocket);
                 }
                 else if (receivedData.StartsWith("MOVE:") && games.ContainsKey(clientSocket))
                 {
@@ -118,6 +116,7 @@ class KalahServer
             clientSocket.Close();
         }
     }
+
 
     static void HandleMove(Socket clientSocket, string receivedData)
     {
@@ -156,6 +155,93 @@ class KalahServer
             }
         }
     }
+    static void HandleMultiplayerRequest(Socket clientSocket)
+    {
+        lock (lockObj)
+        {
+            // Ищем доступного соперника
+            Socket opponent = FindOpponent(clientSocket);
+
+            if (opponent != null)
+            {
+                // Если соперник найден, связываем игроков
+                playerPairs[clientSocket] = opponent;
+                playerPairs[opponent] = clientSocket;
+
+                // Создаем новую игру
+                var game = new KalahGame();
+                games[clientSocket] = game;
+                games[opponent] = game;
+
+                // Отправляем обоим игрокам сообщение о старте игры
+                SendMessage(clientSocket, "START_GAME_WITH_PLAYER");
+                SendMessage(opponent, "START_GAME_WITH_PLAYER");
+            }
+            else
+            {
+                // Если соперник не найден, отправляем сообщение о том, что клиент должен подождать
+                SendMessage(clientSocket, "WAITING_FOR_PLAYER");
+            }
+        }
+    }
+
+    static void StartGameWithAI(Socket clientSocket)
+    {
+        lock (lockObj)
+        {
+            // Создаем игру с ИИ
+            var game = new KalahGame();
+            games[clientSocket] = game;
+
+            // Отправляем клиенту сообщение о начале игры с ИИ
+            SendMessage(clientSocket, "START_GAME_WITH_COMPUTER");
+
+            // Пример логики для хода ИИ (это можно улучшить):
+            // После того как клиент делает ход, ИИ тоже делает свой ход.
+            // Логика для ИИ (например, случайный ход):
+            Thread aiThread = new Thread(() => PlayAI(clientSocket));
+            aiThread.Start();
+        }
+    }
+
+    // Пример реализации хода ИИ (вы можете улучшить логику ИИ)
+    static void PlayAI(Socket clientSocket)
+    {
+        // Здесь реализуется логика ИИ. Например, просто выбираем случайный ход.
+        KalahGame game = games[clientSocket];
+        Random random = new Random();
+
+        // Ищем возможные ходы для ИИ (находим пустые ячейки)
+        List<int> availableMoves = new List<int>();
+        for (int i = 0; i < 6; i++)
+        {
+            if (game.Pits[1, i] > 0) // ИИ играет за второго игрока
+            {
+                availableMoves.Add(i);
+            }
+        }
+
+        if (availableMoves.Count > 0)
+        {
+            // ИИ делает случайный ход
+            int move = availableMoves[random.Next(availableMoves.Count)];
+
+            // Делаем ход для ИИ
+            game.MakeMove(false, move); // false - ИИ это второй игрок
+
+            // Отправляем состояние доски клиенту
+            string boardState = game.GetBoardState();
+            SendMessage(clientSocket, "BOARD:" + boardState);
+
+            // Проверка на конец игры
+            if (game.IsGameOver())
+            {
+                string result = game.GetWinner();
+                SendMessage(clientSocket, "GAME_OVER:" + result);
+            }
+        }
+    }
+
 
     static Socket FindOpponent(Socket client)
     {

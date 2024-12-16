@@ -1,0 +1,68 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+
+public static class Database
+{
+    private static readonly string FilePath = "users.txt";  // Путь к файлу с данными пользователей
+
+    // Метод для инициализации базы данных (создание файла, если его нет)
+    static Database()
+    {
+        if (!File.Exists(FilePath))
+        {
+            // Если файл не существует, создаем новый
+            CreateDatabase();
+        }
+    }
+
+    // Метод для авторизации пользователя
+    public static bool Authorize(string username, string password)
+    {
+        // Проверяем, существует ли файл с данными пользователей
+        if (!File.Exists(FilePath))
+        {
+            Console.WriteLine("Файл с пользователями не существует.");
+            return false;
+        }
+
+        // Читаем все строки из файла
+        var users = File.ReadAllLines(FilePath);
+
+        // Ищем пользователя с указанным именем и паролем
+        foreach (var user in users)
+        {
+            var parts = user.Split(',');
+
+            if (parts.Length >= 2 && parts[0] == username && parts[1] == password)
+            {
+                return true;  // Пользователь найден и пароль совпадает
+            }
+        }
+
+        return false;  // Пользователь не найден или пароль неверный
+    }
+
+    // Метод для добавления нового пользователя
+    public static void AddUser(string username, string password, int score = 0)
+    {
+        // Добавляем нового пользователя в файл
+        File.AppendAllText(FilePath, $"{username},{password},{score}\n");
+    }
+
+    // Метод для создания базы данных (пересоздает файл)
+    private static void CreateDatabase()
+    {
+        Console.WriteLine("База данных не найдена. Создается новый файл users.txt.");
+
+        // Создаем новый файл с дефолтными данными (например, администратор)
+        using (var fileStream = File.Create(FilePath))
+        {
+            // Заполняем файл дефолтным пользователем
+            using (var writer = new StreamWriter(fileStream))
+            {
+                writer.WriteLine("admin,admin,0");  // Добавляем пользователя по умолчанию
+            }
+        }
+    }
+}

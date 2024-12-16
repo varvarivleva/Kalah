@@ -15,13 +15,15 @@ namespace KalahClient
         private bool _isGameWithComputer;
         private IGameStrategy _strategy;
 
-        public MainWindow()
+        public MainWindow(Socket socket)
         {
             InitializeComponent();
-            ConnectToServer();
+            _socket = socket;
+            ConnectToServer(); // Можно убрать, если соединение уже установлено
             _game = new KalahGame(_strategy);
             UpdateBoard();
         }
+
 
         private void ConnectToServer()
         {

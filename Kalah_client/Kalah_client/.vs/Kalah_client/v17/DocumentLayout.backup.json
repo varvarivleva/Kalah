@@ -11,15 +11,15 @@
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_client\\kalah_client\\kalah_client\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_client\\kalah_client\\kalah_client\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_client\\kalah_client\\kalah_client\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,20 +58,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GameStrategy.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameStrategy.cs",
-              "RelativeDocumentMoniker": "Kalah_client\\GameStrategy.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameStrategy.cs",
-              "RelativeToolTip": "Kalah_client\\GameStrategy.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAA7wCEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T16:55:45.64Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "KalahGame.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\KalahGame.cs",
               "RelativeDocumentMoniker": "Kalah_client\\KalahGame.cs",
@@ -90,14 +77,14 @@
               "RelativeDocumentMoniker": "Kalah_client\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\MainWindow.xaml.cs*",
               "RelativeToolTip": "Kalah_client\\MainWindow.xaml.cs*",
-              "ViewState": "AgIAAKkAAAAAAAAAAAAtwLoAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB4AAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T16:52:00.305Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GameState.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameState.cs",
               "RelativeDocumentMoniker": "Kalah_client\\GameState.cs",
@@ -105,8 +92,7 @@
               "RelativeToolTip": "Kalah_client\\GameState.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAowCoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-15T16:55:43.195Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-15T16:55:43.195Z"
             },
             {
               "$type": "Document",
@@ -114,11 +100,23 @@
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\MainWindow.xaml",
               "RelativeDocumentMoniker": "Kalah_client\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\MainWindow.xaml*",
-              "RelativeToolTip": "Kalah_client\\MainWindow.xaml*",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\MainWindow.xaml",
+              "RelativeToolTip": "Kalah_client\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2024-12-15T16:52:00.098Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GameStrategy.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameStrategy.cs",
+              "RelativeDocumentMoniker": "Kalah_client\\GameStrategy.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameStrategy.cs",
+              "RelativeToolTip": "Kalah_client\\GameStrategy.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAA7wCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-15T16:55:45.64Z"
             }
           ]
         }

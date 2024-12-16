@@ -1,0 +1,15 @@
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\Kalah_server.exe
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\Kalah_server.deps.json
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\Kalah_server.runtimeconfig.json
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\Kalah_server.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\Kalah_server.pdb
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.AssemblyInfoInputs.cache
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.AssemblyInfo.cs
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.csproj.CoreCompileInputs.cache
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.sourcelink.json
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\refint\Kalah_server.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.pdb
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.genruntimeconfig.cache
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\ref\Kalah_server.dll

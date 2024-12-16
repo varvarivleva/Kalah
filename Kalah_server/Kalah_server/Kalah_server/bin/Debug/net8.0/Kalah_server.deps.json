@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Kalah_server/1.0.0": {
+        "runtime": {
+          "Kalah_server.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Kalah_server/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
