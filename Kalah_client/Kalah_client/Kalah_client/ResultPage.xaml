@@ -1,0 +1,10 @@
+﻿<Page x:Class="KalahClient.ResultPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Results">
+    <Grid>
+        <TextBlock Text="Результаты игры" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" />
+        <Button Content="Главное меню" Width="200" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                Click="MainMenuButton_Click" />
+    </Grid>
+</Page>

@@ -1,0 +1,12 @@
+﻿<Page x:Class="KalahClient.GamePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Game">
+    <Grid>
+        <!-- UI игры -->
+        <TextBlock Text="Игра в Калах" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="24" />
+        <!-- Добавить кнопки/лунки для игры -->
+        <Button Content="Завершить игру" Width="200" Height="50" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                Click="EndGameButton_Click" />
+    </Grid>
+</Page>
