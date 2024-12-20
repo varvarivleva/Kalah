@@ -4,15 +4,17 @@ namespace KalahClient
 {
     public partial class ResultPage : Page
     {
-        public ResultPage()
+        private readonly TcpKalahClient _client;
+
+        public ResultPage(TcpKalahClient client)
         {
             InitializeComponent();
+            _client = client;
         }
 
         private void MainMenuButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            // Возврат в главное меню
-            NavigationService.Navigate(new GameModePage());
+            NavigationService.Navigate(new GameModePage(_client));
         }
     }
 }

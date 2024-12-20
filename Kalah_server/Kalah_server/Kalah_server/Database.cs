@@ -65,4 +65,24 @@ public static class Database
             }
         }
     }
+    public static bool UserExists(string username)
+    {
+        return File.ReadLines(FilePath).Any(line => line.Split(',')[0] == username);
+    }
+
+    public static int GetUserId(string username)
+    {
+        var users = File.ReadLines(FilePath)
+            .Select((line, index) => new { line, index })
+            .FirstOrDefault(entry => entry.line.Split(',')[0] == username);
+
+        return users != null ? users.index + 1 : -1;
+    }
+
+    public static void AddUser(string username, string password, string email)
+    {
+        var id = File.ReadLines(FilePath).Count() + 1;
+        File.AppendAllText(FilePath, $"{id},{username},{password},{email},0\n");
+    }
+
 }

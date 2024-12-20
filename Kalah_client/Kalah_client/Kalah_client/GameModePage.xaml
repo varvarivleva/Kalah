@@ -3,9 +3,9 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       Title="Game Mode">
     <Grid>
-        <Button Content="Игра по сети" Width="200" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="PlayWithPlayerButton_Click" Margin="0,0,0,-30" />
-        <Button Content="Игра с компьютером" Width="200" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center"
-                Click="PlayWithComputerButton_Click" Margin="0,30,0,0" />
+        <Button Content="Игра по сети" Width="130" Height="27" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Click="PlayWithPlayerButton_Click" Margin="0,51,0,0" />
+        <Button Content="Игра с компьютером" Width="130" Height="30" VerticalAlignment="Top" HorizontalAlignment="Center"
+                Click="PlayWithComputerButton_Click" />
     </Grid>
 </Page>

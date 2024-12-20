@@ -13,3 +13,9 @@ C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debu
 C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.pdb
 C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.genruntimeconfig.cache
 C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\ref\Kalah_server.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\System.IO.Pipelines.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_server.csproj.AssemblyReference.cache
+C:\Users\user\source\repos\Kalah\Kalah_server\Kalah_server\Kalah_server\obj\Debug\net8.0\Kalah_se.AB154658.Up2Date
