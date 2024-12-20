@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -17,7 +16,7 @@ class KalahServer
     static void Main()
     {
         Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        serverSocket.Bind(new IPEndPoint(IPAddress.Parse("192.168.200.13"), 4563));
+        serverSocket.Bind(new IPEndPoint(IPAddress.Any, 4563)); // Измените на нужный IP адрес
         serverSocket.Listen(10);
         Console.WriteLine("Сервер запущен, ожидает подключения...");
 
@@ -41,6 +40,7 @@ class KalahServer
         }
     }
 
+    // Обработка клиента
     static void HandleClient(Socket clientSocket)
     {
         lock (lockObj)
@@ -60,38 +60,38 @@ class KalahServer
                 string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Console.WriteLine($"Получено от клиента: {receivedData}");
 
-                try
+                // Обработка авторизации
+                if (receivedData.Contains("\"action\":\"login\""))
                 {
-                    var options = new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true // Игнорируем регистр ключей JSON
-                    };
+                    var requestData = JsonSerializer.Deserialize<LoginRequest>(receivedData);
+                    bool isAuthorized = Database.Authorize(requestData.Username, requestData.Password);
 
-                    // Попытка десериализовать данные
-                    var request = JsonSerializer.Deserialize<Request>(receivedData, options);
+                    string response = isAuthorized ? "OK" : "FAIL";
+                    SendMessage(clientSocket, response);
 
-                    if (request.Action == "login")
+                    if (isAuthorized)
                     {
-                        HandleLoginRequest(clientSocket, request);
-                    }
-                    else if (request.Action == "register")
-                    {
-                        HandleRegisterRequest(clientSocket, request);
-                    }
-                    else if (request.Action == "play_with_player")
-                    {
-                        HandleMultiplayerRequest(clientSocket);
-                    }
-                    else if (request.Action == "play_with_computer")
-                    {
-                        StartGameWithAI(clientSocket);
+                        // Сохраняем пользователя в файл БД
+                        File.AppendAllText("users.txt", $"{requestData.Username},{requestData.Password},{0}\n");
                     }
                 }
-                catch (JsonException ex)
+                // Обработка игры с другим игроком
+                else if (receivedData.Contains("\"action\":\"play_with_player\""))
                 {
-                    Console.WriteLine($"Ошибка десериализации JSON: {ex.Message}");
-                    Console.WriteLine($"Входящие данные: {receivedData}");
-                    SendMessage(clientSocket, "ERROR:Invalid JSON format");
+                    HandleMultiplayerRequest(clientSocket);
+                }
+                // Обработка игры с компьютером
+                else if (receivedData.Contains("\"action\":\"play_with_computer\""))
+                {
+                    StartGameWithAI(clientSocket);
+                }
+                else if (receivedData.StartsWith("MOVE:") && games.ContainsKey(clientSocket))
+                {
+                    HandleMove(clientSocket, receivedData);
+                }
+                else if (receivedData.Equals("END_TURN") && games.ContainsKey(clientSocket))
+                {
+                    HandleEndTurn(clientSocket);
                 }
             }
         }
@@ -120,68 +120,83 @@ class KalahServer
         }
     }
 
-    static void HandleLoginRequest(Socket clientSocket, Request request)
+    static void HandleMove(Socket clientSocket, string receivedData)
     {
-        bool isAuthorized = Database.Authorize(request.Username, request.Password);
+        string moveData = receivedData.Replace("MOVE:", "");
+        int pitIndex = int.Parse(moveData);
+        KalahGame game = games[clientSocket];
+        bool isPlayer1 = IsPlayer1(clientSocket, game);
 
-        var authData = JsonSerializer.Serialize(new
+        lock (lockObj)
         {
-            action = "login",
-            message = isAuthorized ? "OK" : "FAIL"
-        });
+            if (game.MakeMove(pitIndex))
+            {
+                string boardState = game.GetBoardState();
+                SendMessage(clientSocket, "BOARD:" + boardState);
 
-        SendMessage(clientSocket, authData);
+                if (playerPairs.ContainsKey(clientSocket))
+                {
+                    Socket opponent = playerPairs[clientSocket];
+                    SendMessage(opponent, "BOARD:" + boardState);
+                }
+
+                if (game.IsGameOver())
+                {
+                    string result = game.GetWinner();
+                    SendMessage(clientSocket, "GAME_OVER:" + result);
+                    if (playerPairs.ContainsKey(clientSocket))
+                    {
+                        Socket opponent = playerPairs[clientSocket];
+                        SendMessage(opponent, "GAME_OVER:" + result);
+                    }
+                }
+            }
+            else
+            {
+                SendMessage(clientSocket, "INVALID_MOVE");
+            }
+        }
     }
 
-    static void HandleRegisterRequest(Socket clientSocket, Request request)
+    static void HandleEndTurn(Socket clientSocket)
     {
-        string _message;
+        KalahGame game = games[clientSocket];
+        // Отправка сигнала о завершении хода
+        string boardState = game.GetBoardState();
+        SendMessage(clientSocket, "BOARD:" + boardState); // Отправляем текущее состояние доски игроку
 
-        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password) || string.IsNullOrEmpty(request.Email))
+        if (playerPairs.ContainsKey(clientSocket))
         {
-            _message = "FAIL:Invalid registration data";
+            Socket opponent = playerPairs[clientSocket];
+            SendMessage(opponent, "BOARD:" + boardState); // Отправляем состояние доски сопернику
         }
-
-        else if (Database.Authorize(request.Username, request.Password))
-        {
-            _message = "FAIL:User already exists";
-        }
-
-        else
-        {
-            Database.AddUser(request.Username, request.Password);
-            _message = "OK:Registration successful";
-        }
-
-        var registerData = JsonSerializer.Serialize(new
-        {
-            action = "register",
-            message = _message
-        });
-
-        SendMessage(clientSocket, registerData);
     }
 
     static void HandleMultiplayerRequest(Socket clientSocket)
     {
         lock (lockObj)
         {
+            // Ищем доступного соперника
             Socket opponent = FindOpponent(clientSocket);
 
             if (opponent != null)
             {
+                // Если соперник найден, связываем игроков
                 playerPairs[clientSocket] = opponent;
                 playerPairs[opponent] = clientSocket;
 
+                // Создаем новую игру
                 var game = new KalahGame();
                 games[clientSocket] = game;
                 games[opponent] = game;
 
+                // Отправляем обоим игрокам сообщение о старте игры
                 SendMessage(clientSocket, "START_GAME_WITH_PLAYER");
                 SendMessage(opponent, "START_GAME_WITH_PLAYER");
             }
             else
             {
+                // Если соперник не найден, отправляем сообщение о том, что клиент должен подождать
                 SendMessage(clientSocket, "WAITING_FOR_PLAYER");
             }
         }
@@ -191,10 +206,47 @@ class KalahServer
     {
         lock (lockObj)
         {
+            // Создаем игру с ИИ
             var game = new KalahGame();
             games[clientSocket] = game;
 
+            // Отправляем клиенту сообщение о начале игры с ИИ
             SendMessage(clientSocket, "START_GAME_WITH_COMPUTER");
+
+            // Пример логики для хода ИИ (это можно улучшить):
+            Thread aiThread = new Thread(() => PlayAI(clientSocket));
+            aiThread.Start();
+        }
+    }
+
+    static void PlayAI(Socket clientSocket)
+    {
+        // Логика ИИ (например, случайный ход)
+        KalahGame game = games[clientSocket];
+        Random random = new Random();
+
+        List<int> availableMoves = new List<int>();
+        for (int i = 0; i < 6; i++)
+        {
+            if (game.Board[1 + i] > 0) // ИИ ходит из лунок игрока 2
+            {
+                availableMoves.Add(1 + i);
+            }
+        }
+
+        if (availableMoves.Count > 0)
+        {
+            int move = availableMoves[random.Next(availableMoves.Count)];
+            game.MakeMove(move);
+
+            string boardState = game.GetBoardState();
+            SendMessage(clientSocket, "BOARD:" + boardState);
+
+            if (game.IsGameOver())
+            {
+                string result = game.GetWinner();
+                SendMessage(clientSocket, "GAME_OVER:" + result);
+            }
         }
     }
 
@@ -210,17 +262,14 @@ class KalahServer
         return null;
     }
 
+    static bool IsPlayer1(Socket client, KalahGame game)
+    {
+        return games.ContainsKey(client) && games[client].Player1Socket == client;
+    }
+
     static void SendMessage(Socket client, string message)
     {
         byte[] data = Encoding.UTF8.GetBytes(message);
         client.Send(data);
     }
-}
-
-public class Request
-{
-    public string Action { get; set; } // Действие: "login", "register", "play_with_player", etc.
-    public string Username { get; set; } // Логин пользователя
-    public string Password { get; set; } // Пароль пользователя
-    public string Email { get; set; } // Email (для регистрации)
 }

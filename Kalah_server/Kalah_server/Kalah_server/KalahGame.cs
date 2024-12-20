@@ -1,77 +1,78 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Sockets;
 
 public class KalahGame
 {
     private const int PITS_PER_PLAYER = 6;
     private const int INITIAL_STONES = 6;
 
-    private int[] board; // Массив для хранения состояния лунок и калахов
-    private bool isPlayerOneTurn;
+    public int[] Board { get; private set; }
+    public bool IsPlayerOneTurn { get; private set; }
+    public Socket Player1Socket { get; set; }
+    public Socket Player2Socket { get; set; }
 
     public KalahGame()
     {
         // Инициализация доски: 6 лунок на игрока + 2 калаха
-        board = new int[2 * PITS_PER_PLAYER + 2];
+        Board = new int[2 * PITS_PER_PLAYER + 2];
         for (int i = 0; i < PITS_PER_PLAYER * 2; i++)
         {
-            board[i] = INITIAL_STONES;
+            Board[i] = INITIAL_STONES;
         }
 
         // Устанавливаем начальный ход первого игрока
-        isPlayerOneTurn = true;
+        IsPlayerOneTurn = true;
     }
-
-    public int[] GetBoard() => board.ToArray();
-
-    public bool IsPlayerOneTurn => isPlayerOneTurn;
 
     public bool MakeMove(int pitIndex)
     {
         if (!IsValidMove(pitIndex))
             return false;
 
-        int stones = board[pitIndex];
-        board[pitIndex] = 0;
+        int stones = Board[pitIndex];
+        Board[pitIndex] = 0;
         int currentIndex = pitIndex;
 
         while (stones > 0)
         {
-            currentIndex = (currentIndex + 1) % board.Length;
+            currentIndex = (currentIndex + 1) % Board.Length;
 
             // Пропускаем калах соперника
             if (currentIndex == GetOpponentKalahIndex())
                 continue;
 
-            board[currentIndex]++;
+            Board[currentIndex]++;
             stones--;
         }
 
         // Проверка, если последний камень попал в пустую лунку игрока
-        if (IsPlayerSide(currentIndex) && board[currentIndex] == 1)
+        if (IsPlayerSide(currentIndex) && Board[currentIndex] == 1)
         {
             int opponentIndex = GetOppositePitIndex(currentIndex);
-            board[GetCurrentPlayerKalahIndex()] += board[opponentIndex] + board[currentIndex];
-            board[opponentIndex] = 0;
-            board[currentIndex] = 0;
-        }
-
-        // Проверка на дополнительный ход
-        if (currentIndex == GetCurrentPlayerKalahIndex())
-        {
-            return true; // Игроку предоставляется дополнительный ход
+            Board[GetCurrentPlayerKalahIndex()] += Board[opponentIndex] + Board[currentIndex];
+            Board[opponentIndex] = 0;
+            Board[currentIndex] = 0;
         }
 
         // Передача хода другому игроку
-        isPlayerOneTurn = !isPlayerOneTurn;
+        if (currentIndex != GetCurrentPlayerKalahIndex())
+        {
+            IsPlayerOneTurn = !IsPlayerOneTurn;
+        }
         return true;
+    }
+
+    public string GetBoardState()
+    {
+        return string.Join(",", Board);
     }
 
     public bool IsGameOver()
     {
         // Проверка, есть ли пустая сторона доски
-        bool playerOneEmpty = Enumerable.Range(0, PITS_PER_PLAYER).All(i => board[i] == 0);
-        bool playerTwoEmpty = Enumerable.Range(PITS_PER_PLAYER + 1, PITS_PER_PLAYER).All(i => board[i] == 0);
+        bool playerOneEmpty = Enumerable.Range(0, PITS_PER_PLAYER).All(i => Board[i] == 0);
+        bool playerTwoEmpty = Enumerable.Range(PITS_PER_PLAYER + 1, PITS_PER_PLAYER).All(i => Board[i] == 0);
 
         return playerOneEmpty || playerTwoEmpty;
     }
@@ -84,32 +85,32 @@ public class KalahGame
         // Перемещение оставшихся камней в калах игроков
         for (int i = 0; i < PITS_PER_PLAYER; i++)
         {
-            board[PITS_PER_PLAYER] += board[i];
-            board[2 * PITS_PER_PLAYER + 1] += board[PITS_PER_PLAYER + 1 + i];
-            board[i] = 0;
-            board[PITS_PER_PLAYER + 1 + i] = 0;
+            Board[PITS_PER_PLAYER] += Board[i];
+            Board[2 * PITS_PER_PLAYER + 1] += Board[PITS_PER_PLAYER + 1 + i];
+            Board[i] = 0;
+            Board[PITS_PER_PLAYER + 1 + i] = 0;
         }
 
-        int playerOneScore = board[PITS_PER_PLAYER];
-        int playerTwoScore = board[2 * PITS_PER_PLAYER + 1];
+        int playerOneScore = Board[PITS_PER_PLAYER];
+        int playerTwoScore = Board[2 * PITS_PER_PLAYER + 1];
 
         if (playerOneScore > playerTwoScore)
-            return "Player 1";
+            return "Player 1 wins";
         else if (playerTwoScore > playerOneScore)
-            return "Player 2";
+            return "Player 2 wins";
         else
             return "Draw";
     }
 
     private bool IsValidMove(int pitIndex)
     {
-        if (pitIndex < 0 || pitIndex >= board.Length)
+        if (pitIndex < 0 || pitIndex >= Board.Length)
             return false;
 
         if (!IsPlayerSide(pitIndex))
             return false;
 
-        if (board[pitIndex] == 0)
+        if (Board[pitIndex] == 0)
             return false;
 
         return true;
@@ -117,7 +118,7 @@ public class KalahGame
 
     private bool IsPlayerSide(int index)
     {
-        if (isPlayerOneTurn)
+        if (IsPlayerOneTurn)
             return index >= 0 && index < PITS_PER_PLAYER;
 
         return index >= PITS_PER_PLAYER + 1 && index < 2 * PITS_PER_PLAYER + 1;
@@ -125,12 +126,12 @@ public class KalahGame
 
     private int GetCurrentPlayerKalahIndex()
     {
-        return isPlayerOneTurn ? PITS_PER_PLAYER : 2 * PITS_PER_PLAYER + 1;
+        return IsPlayerOneTurn ? PITS_PER_PLAYER : 2 * PITS_PER_PLAYER + 1;
     }
 
     private int GetOpponentKalahIndex()
     {
-        return isPlayerOneTurn ? 2 * PITS_PER_PLAYER + 1 : PITS_PER_PLAYER;
+        return IsPlayerOneTurn ? 2 * PITS_PER_PLAYER + 1 : PITS_PER_PLAYER;
     }
 
     private int GetOppositePitIndex(int index)
