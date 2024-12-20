@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 
-class KalahServer
+class KalahServerя
 {
     private static List<Socket> clients = new List<Socket>();
     private static Dictionary<Socket, Socket> playerPairs = new Dictionary<Socket, Socket>();
@@ -60,21 +60,24 @@ class KalahServer
                 string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                 Console.WriteLine($"Получено от клиента: {receivedData}");
 
-                // Обработка авторизации
-                if (receivedData.Contains("\"action\":\"login\""))
+                var options = new JsonSerializerOptions
                 {
-                    var requestData = JsonSerializer.Deserialize<LoginRequest>(receivedData);
-                    bool isAuthorized = Database.Authorize(requestData.Username, requestData.Password);
+                    PropertyNameCaseInsensitive = true // Игнорируем регистр ключей JSON
+                };
 
-                    string response = isAuthorized ? "OK" : "FAIL";
-                    SendMessage(clientSocket, response);
+                // Попытка десериализовать данные
+                var request = JsonSerializer.Deserialize<Request>(receivedData, options);
 
-                    if (isAuthorized)
-                    {
-                        // Сохраняем пользователя в файл БД
-                        File.AppendAllText("users.txt", $"{requestData.Username},{requestData.Password},{0}\n");
-                    }
+                if (request.Action == "login")
+                {
+                    HandleLoginRequest(clientSocket, request);
                 }
+                else if (request.Action == "register")
+                {
+                    HandleRegisterRequest(clientSocket, request);
+                }
+
+
                 // Обработка игры с другим игроком
                 else if (receivedData.Contains("\"action\":\"play_with_player\""))
                 {
@@ -118,6 +121,48 @@ class KalahServer
             }
             clientSocket.Close();
         }
+    }
+
+    static void HandleLoginRequest(Socket clientSocket, Request request)
+    {
+        bool isAuthorized = Database.Authorize(request.Username, request.Password);
+
+        var authData = JsonSerializer.Serialize(new
+        {
+            action = "login",
+            message = isAuthorized ? "OK" : "FAIL"
+        });
+
+        SendMessage(clientSocket, authData);
+    }
+
+    static void HandleRegisterRequest(Socket clientSocket, Request request)
+    {
+        string _message;
+
+        if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password) || string.IsNullOrEmpty(request.Email))
+        {
+            _message = "FAIL:Invalid registration data";
+        }
+
+        else if (Database.Authorize(request.Username, request.Password))
+        {
+            _message = "FAIL:User already exists";
+        }
+
+        else
+        {
+            Database.AddUser(request.Username, request.Password);
+            _message = "OK:Registration successful";
+        }
+
+        var registerData = JsonSerializer.Serialize(new
+        {
+            action = "register",
+            message = _message
+        });
+
+        SendMessage(clientSocket, registerData);
     }
 
     static void HandleMove(Socket clientSocket, string receivedData)
@@ -272,4 +317,12 @@ class KalahServer
         byte[] data = Encoding.UTF8.GetBytes(message);
         client.Send(data);
     }
+}
+
+public class Request
+{
+    public string Action { get; set; } // Действие: "login", "register", "play_with_player", etc.
+    public string Username { get; set; } // Логин пользователя
+    public string Password { get; set; } // Пароль пользователя
+    public string Email { get; set; } // Email (для регистрации)
 }
