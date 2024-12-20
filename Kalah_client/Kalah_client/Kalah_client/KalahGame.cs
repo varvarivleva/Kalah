@@ -5,13 +5,8 @@ namespace KalahClient
     public class KalahGame
     {
         private GameState _state = new GameState();
-        private IGameStrategy _strategy;
         private int _currentPlayer = 0;
 
-        public KalahGame(IGameStrategy strategy)
-        {
-            _strategy = strategy;
-        }
         public GameState State => _state;
 
         public void MakeMove(int selectedPit)
@@ -79,5 +74,4 @@ namespace KalahClient
             return sb.ToString();
         }
     }
-
 }
