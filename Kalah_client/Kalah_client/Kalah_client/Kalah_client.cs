@@ -12,15 +12,20 @@ namespace KalahClient
 
         public event Action<string> OnMessageReceived;
 
+        // Конструктор, который принимает IP-адрес и порт
+        public TcpKalahClient()
+        {
+            _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
+
         public bool Connect(string serverIp, int port)
         {
             try
             {
-                _clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                _clientSocket.Connect(serverIp, port);
+                _clientSocket.Connect(serverIp, port); // Подключение к серверу
                 _receiveThread = new Thread(ReceiveMessages);
                 _receiveThread.IsBackground = true;
-                _receiveThread.Start();
+                _receiveThread.Start(); // Запуск потока для получения сообщений
                 return true;
             }
             catch (Exception ex)
@@ -35,7 +40,7 @@ namespace KalahClient
             try
             {
                 byte[] data = Encoding.UTF8.GetBytes(message);
-                _clientSocket.Send(data);
+                _clientSocket.Send(data); // Отправка сообщения на сервер
             }
             catch (Exception ex)
             {
@@ -50,11 +55,11 @@ namespace KalahClient
                 byte[] buffer = new byte[1024];
                 while (true)
                 {
-                    int bytesRead = _clientSocket.Receive(buffer);
+                    int bytesRead = _clientSocket.Receive(buffer); // Получение данных от сервера
                     if (bytesRead > 0)
                     {
                         string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        OnMessageReceived?.Invoke(message);
+                        OnMessageReceived?.Invoke(message); // Вызов события при получении сообщения
                     }
                 }
             }
@@ -70,8 +75,8 @@ namespace KalahClient
 
         public void Disconnect()
         {
-            _clientSocket?.Close();
-            _receiveThread?.Interrupt();
+            _clientSocket?.Close(); // Закрытие сокета
+            _receiveThread?.Interrupt(); // Завершение потока
         }
     }
 }

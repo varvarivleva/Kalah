@@ -8,8 +8,7 @@ namespace KalahClient
         public MainWindow()
         {
             InitializeComponent();
-            // Устанавливаем стартовую страницу
-            MainFrame.Navigate(new LoginPage());
+            mainFrame.Navigate(new LoginPage());
         }
     }
 }

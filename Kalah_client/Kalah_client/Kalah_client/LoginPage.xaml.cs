@@ -1,109 +1,88 @@
-﻿using System.Text.Json;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace KalahClient
 {
-    // Класс для страницы логина
     public partial class LoginPage : Page
     {
-        private readonly TcpKalahClient _client; // Класс для подключения к серверу
+        private TcpKalahClient client;
 
-        // Конструктор страницы логина
         public LoginPage()
         {
-            InitializeComponent(); // Инициализация компонентов страницы
-            _client = new TcpKalahClient(); // Создание экземпляра клиента
-            Loaded += LoginPage_Loaded; // Подписка на событие загрузки страницы
-            Unloaded += LoginPage_Unloaded; // Подписка на событие выгрузки страницы
+            InitializeComponent();
+            client = new TcpKalahClient();  // Создание клиента без параметров
+            client.OnMessageReceived += OnServerResponse;
         }
 
-        // Обработчик события загрузки страницы
-        private void LoginPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            _client.OnMessageReceived += Client_OnMessageReceived; // Подписка на получение сообщений от сервера
-        }
-
-        // Обработчик события выгрузки страницы
-        private void LoginPage_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _client.OnMessageReceived -= Client_OnMessageReceived; // Отписка от получения сообщений
-        }
-
-        // Обработчик кнопки входа
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            Authenticate("login"); // Аутентификация с действием "login"
-        }
+            string username = UsernameTextBox.Text; // Связь с XAML через x:Name
+            string password = PasswordTextBox.Password; // Связь с XAML через x:Name
 
-        // Обработчик кнопки регистрации
-        private void RegisterButton_Click(object sender, RoutedEventArgs e)
-        {
-            Authenticate("register"); // Аутентификация с действием "register"
-        }
-
-        // Метод для аутентификации пользователя
-        private void Authenticate(string action)
-        {
-            // Попытка подключения к серверу
-            if (!_client.Connect("192.168.200.13", 4563))
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Не удалось подключиться к серверу."); // Вывод сообщения об ошибке
+                MessageBox.Show("Please enter both username and password.");
                 return;
             }
 
-            // Создание объекта с данными пользователя
-            var userData = new
+            // Подключаемся к серверу
+            bool isConnected = client.Connect("192.168.200.13", 4563); // Указываем IP и порт
+            if (!isConnected)
             {
-                action, // Действие (login или register)
-                username = UsernameBox.Text, // Имя пользователя
-                password = PasswordBox.Password, // Пароль
-                email = action == "register" ? EmailBox.Text : null // Электронная почта, если действие - регистрация
-            };
+                MessageBox.Show("Unable to connect to the server.");
+                return;
+            }
 
-            // Сериализация данных в JSON
-            string jsonData = JsonSerializer.Serialize(userData);
-            _client.SendMessage(jsonData); // Отправка данных на сервер
+            // Отправляем запрос на логин
+            string message = $"LOGIN,{username},{password}";
+            client.SendMessage(message);
         }
 
-        // Обработчик получения сообщений от сервера
-        private void Client_OnMessageReceived(string message)
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            string username = UsernameTextBox.Text;
+            string password = PasswordTextBox.Password;
+
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Please enter both username and password.");
+                return;
+            }
+
+            // Подключаемся к серверу
+            bool isConnected = client.Connect("192.168.200.13", 4563); // Указываем IP и порт
+            if (!isConnected)
+            {
+                MessageBox.Show("Unable to connect to the server.");
+                return;
+            }
+
+            // Отправляем запрос на регистрацию
+            string message = $"REGISTER,{username},{password}";
+            client.SendMessage(message);
+        }
+
+        private void OnServerResponse(string message)
         {
             Dispatcher.Invoke(() =>
             {
-                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var response = JsonSerializer.Deserialize<Response>(message, options); // Десериализация ответа сервера
-                HandleResponse(response); // Обработка ответа
+                if (message.StartsWith("SUCCESS:LOGIN") || message.StartsWith("SUCCESS:REGISTER"))
+                {
+                    MessageBox.Show("Operation successful!");
+                    GameModePage gameModePage = new GameModePage(client);  // Передаем клиента в GameModePage
+                    NavigationService.Navigate(gameModePage);  // Навигация к следующей странице
+                }
+                else if (message.StartsWith("ERROR"))
+                {
+                    MessageBox.Show($"Server error: {message}");
+                }
             });
         }
 
-        // Метод для обработки ответа от сервера
-        private void HandleResponse(Response response)
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (response.Action == "login")
-            {
-                if (response.Message == "OK")
-                {
-                    NavigationService.Navigate(new GameModePage(_client)); // Переход на страницу выбора режима игры
-                }
-                else
-                {
-                    MessageBox.Show("Неверные учетные данные."); // Уведомление о неверных учетных данных
-                }
-            }
-            else if (response.Action == "register")
-            {
-                // Уведомление о результате регистрации
-                MessageBox.Show(response.Message == "OK" ? "Регистрация прошла успешно. Теперь авторизуйтесь" :
-                "Ошибка регистрации. Попробуйте другой логин.");
-            }
+            client.Disconnect();
         }
-    }
-
-    // Класс для обработки ответа от сервера
-    public class Response
-    {
-        public string Action { get; set; } // Действие (login или register)
-        public string Message { get; set; } // Сообщение от сервера
     }
 }
