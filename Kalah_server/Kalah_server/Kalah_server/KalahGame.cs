@@ -1,51 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-abstract class GameStrategy
+namespace Kalah_server
 {
-    public abstract string ProcessInput(string input);
-}
-
-class NetworkGameStrategy : GameStrategy
-{
-    private KalahBoard board = new KalahBoard();
-
-    public override string ProcessInput(string input)
+    public class KalahGame
     {
-        string[] parts = input.Split(',');
-        int player = int.Parse(parts[0]);
-        int pit = int.Parse(parts[1]);
+        private KalahBoard board;
+        private int currentPlayer;
 
-        board.MakeMove(player, pit);
-        return board.GetBoardState();
-    }
-}
-
-class AIPlayerGameStrategy : GameStrategy
-{
-    private KalahBoard board = new KalahBoard();
-    private Random random = new Random();
-
-    public override string ProcessInput(string input)
-    {
-        // Player's move
-        string[] parts = input.Split(',');
-        int player = 1;
-        int pit = int.Parse(parts[1]);
-
-        board.MakeMove(player, pit);
-
-        if (!board.IsGameOver())
+        public KalahGame()
         {
-            // AI's random move
-            int aiPit;
-            do
-            {
-                aiPit = random.Next(0, 6);
-            } while (!board.CanMove(2, aiPit));
-
-            board.MakeMove(2, aiPit);
+            board = new KalahBoard();
+            currentPlayer = 1; // Игрок 1 ходит первым
         }
 
-        return board.GetBoardState();
+        // Метод для выполнения хода
+        public bool MakeMove(int pitIndex)
+        {
+            if (!board.CanMove(currentPlayer, pitIndex))
+            {
+                return false; // Невозможный ход (пустая лунка или неправильный индекс)
+            }
+
+            // Сделать ход
+            board.MakeMove(currentPlayer, pitIndex);
+
+            // Проверка на окончание игры
+            if (board.IsGameOver())
+            {
+                return true; // Игра завершена
+            }
+
+            // Меняем игрока
+            currentPlayer = (currentPlayer == 1) ? 2 : 1;
+
+            return false; // Ход завершен, игра продолжается
+        }
+
+        // Получение текущего состояния доски для отправки клиентам
+        public string GetBoardState()
+        {
+            return board.GetBoardState();
+        }
+
+        // Проверка на завершение игры
+        public bool IsGameOver()
+        {
+            return board.IsGameOver();
+        }
+
+        // Проверка, чей сейчас ход
+        public int GetCurrentPlayer()
+        {
+            return currentPlayer;
+        }
     }
+
+
 }

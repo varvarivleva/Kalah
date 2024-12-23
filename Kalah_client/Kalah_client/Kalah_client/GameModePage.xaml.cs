@@ -30,6 +30,7 @@ namespace KalahClient
         {
             GamePage gamePage = new GamePage(client);  // Передаем клиента на следующую страницу
             this.NavigationService.Navigate(gamePage);  // Навигация с использованием NavigationService
+            client.SendMessage("MOVE,-1");
         }
     }
 }

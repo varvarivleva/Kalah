@@ -4,12 +4,29 @@
       Title="Kalah Game" Height="450" Width="800">
 
     <Grid>
-        <!-- Game Board -->
-        <Grid x:Name="GameBoard">
-            <!-- Кнопки для ячеек -->
-            <Button Tag="0" Content="Pit 0" Click="PitButton_Click" />
-            <Button Tag="1" Content="Pit 1" Click="PitButton_Click" />
-            <!-- Добавьте остальные элементы UI -->
-        </Grid>
+        <!-- Плашка для отображения, чей ход -->
+        <TextBlock Name="TurnText" Text="Ваш ход" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <!-- Ряд лунок противника -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <Button Name="OpponentKalaha" Content="Kalah: 0" Width="130" Height="130" IsEnabled="False"/>
+            <Button Name="OpponentPit0" Content="0" Width="75" Height="75" IsEnabled="False" Tag="7" Click="PitButton_Click"/>
+            <Button Name="OpponentPit1" Content="0" Width="75" Height="75" IsEnabled="False" Tag="8" Click="PitButton_Click"/>
+            <Button Name="OpponentPit2" Content="0" Width="75" Height="75" IsEnabled="False" Tag="9" Click="PitButton_Click"/>
+            <Button Name="OpponentPit3" Content="0" Width="75" Height="75" IsEnabled="False" Tag="10" Click="PitButton_Click"/>
+            <Button Name="OpponentPit4" Content="0" Width="75" Height="75" IsEnabled="False" Tag="11" Click="PitButton_Click"/>
+            <Button Name="OpponentPit5" Content="0" Width="75" Height="75" IsEnabled="False" Tag="12" Click="PitButton_Click"/>
+        </StackPanel>
+
+        <!-- Ряд лунок игрока -->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button Name="PlayerPit0" Content="0" Width="75" Height="75" Click="PitButton_Click" Tag="0" />
+            <Button Name="PlayerPit1" Content="0" Width="75" Height="75" Click="PitButton_Click" Tag="1" />
+            <Button Name="PlayerPit2" Content="0" Width="75" Height="75" Click="PitButton_Click" Tag="2" />
+            <Button Name="PlayerPit3" Content="0" Width="75" Height="75" Click="PitButton_Click" Tag="3" />
+            <Button Name="PlayerPit4" Content="0" Width="75" Height="75" Click="PitButton_Click" Tag="4" />
+            <Button Name="PlayerPit5" Content="0" Width="75" Height="75" Click="PitButton_Click" Tag="5" />
+            <Button Name="PlayerKalaha" Content="Kalah: 0" Width="130" Height="130" IsEnabled="False"/>
+        </StackPanel>
     </Grid>
 </Page>
