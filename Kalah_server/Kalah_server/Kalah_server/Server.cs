@@ -13,11 +13,12 @@ namespace Kalah_server
         private static Dictionary<string, string> users = new Dictionary<string, string>(); // Пользователи
         private static Dictionary<Socket, string> clientModes = new Dictionary<Socket, string>(); // Режимы клиентов
         private static Dictionary<Socket, KalahGame> games = new Dictionary<Socket, KalahGame>(); // Игры
+        private static Dictionary<Socket, GameStrategy> strategies = new Dictionary<Socket, GameStrategy>(); // Стратегии
         private static Dictionary<Socket, Socket> playerPairs = new Dictionary<Socket, Socket>(); // Пары игроков
 
         private static object lockObj = new object();
 
-        static void Main()
+         static void Main()
         {
             Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             serverSocket.Bind(new IPEndPoint(IPAddress.Any, 4563)); // Порт для подключения
@@ -147,62 +148,18 @@ namespace Kalah_server
             }
         }
 
+        // Обработка запроса на ход
         static void HandleMoveRequest(Socket clientSocket, string request)
         {
-            // Проверяем, существует ли объект игры для клиента
-            if (!games.ContainsKey(clientSocket))
+            if (!strategies.ContainsKey(clientSocket))
             {
-                // Если игры нет, создаем новую
-                KalahGame newGame = new KalahGame();
-                games[clientSocket] = newGame;
-
-                // Отправляем начальное состояние доски
-                SendMessage(clientSocket, "BOARD_STATE:" + newGame.GetBoardState());
-                SendMessage(clientSocket, "TURN: 1");  // Игрок 1 начинает
-                return;  // Завершаем обработку пустого хода
+                SendMessage(clientSocket, "ERROR: Set game mode first.");
+                return;
             }
 
-            // Получаем объект игры для клиента
-            KalahGame game = games[clientSocket];
-
-            string[] parts = request.Split(',');
-            int pit = int.Parse(parts[1]);  // Получаем лунку для хода
-
-            string mode = clientModes[clientSocket];
-            GameStrategy strategy;
-
-            if (mode == "COMPUTER")
-            {
-                strategy = new AIPlayerGameStrategy();  // Используем стратегию для игры с компьютером
-            }
-            else
-            {
-                strategy = new NetworkGameStrategy();  // Используем стратегию для игры по сети
-            }
-
-            // Выполняем ход
-            string boardState = strategy.ProcessInput(request);
-
-            // Отправляем обновленное состояние доски
-            SendMessage(clientSocket, "BOARD_STATE:" + boardState);
-
-            // Проверяем, завершена ли игра
-            if (game.IsGameOver())
-            {
-                // Игра завершена
-                SendMessage(clientSocket, "GAME_OVER:" + boardState);
-                Socket opponent = playerPairs[clientSocket];
-                SendMessage(opponent, "GAME_OVER:" + boardState);
-            }
-            else
-            {
-                // Переключаем ход
-                Socket opponent = playerPairs[clientSocket];
-                SendMessage(opponent, "TURN: " + game.GetCurrentPlayer());
-            }
+            GameStrategy strategy = strategies[clientSocket];
+            strategy.ProcessMove(clientSocket, request, games, playerPairs, SendMessage);
         }
-
-
 
 
         // Обработка запроса на выбор режима игры
@@ -211,16 +168,17 @@ namespace Kalah_server
             string[] parts = request.Split(',');
             string mode = parts[1];
 
-            // Устанавливаем режим игры
             if (mode == "COMPUTER")
             {
                 clientModes[clientSocket] = "COMPUTER";
+                strategies[clientSocket] = new AIPlayerGameStrategy(); // Устанавливаем стратегию
                 SendMessage(clientSocket, "SUCCESS:MODE_SET,COMPUTER");
                 Console.WriteLine($"Клиент {clientSocket.RemoteEndPoint} выбрал режим: Игра с компьютером.");
             }
             else if (mode == "PLAYER")
             {
                 clientModes[clientSocket] = "PLAYER";
+                strategies[clientSocket] = new NetworkGameStrategy(); // Устанавливаем стратегию
                 SendMessage(clientSocket, "SUCCESS:MODE_SET,PLAYER");
                 Console.WriteLine($"Клиент {clientSocket.RemoteEndPoint} выбрал режим: Игра с другим игроком.");
             }
@@ -229,60 +187,55 @@ namespace Kalah_server
                 SendMessage(clientSocket, "ERROR: Invalid game mode.");
             }
         }
-
-
-        // Обработка запроса на игру с другим игроком или с компьютером
+        // Обработка запроса на игру
         static void HandlePlayRequest(Socket clientSocket, string request)
         {
-            lock (lockObj)
+            if (!strategies.ContainsKey(clientSocket))
             {
-                // Если клиент выбрал режим игры, создаем игру
-                KalahGame game = new KalahGame();  // Создаем новую игру для клиента
-                games[clientSocket] = game;  // Сохраняем игру в словарь
+                SendMessage(clientSocket, "ERROR: Set game mode first.");
+                return;
+            }
 
-                if (request.Contains("COMPUTER"))
+            string mode = clientModes[clientSocket];
+            if (mode == "COMPUTER")
+            {
+                KalahGame game = new KalahGame();
+                games[clientSocket] = game;
+                //SendMessage(clientSocket, "START_GAME");
+                SendMessage(clientSocket, "BOARD_STATE:" + game.GetBoardState());
+                SendMessage(clientSocket, "YOUR_TURN");
+            }
+            else if (mode == "PLAYER")
+            {
+                lock (lockObj)
                 {
-                    clientModes[clientSocket] = "COMPUTER";  // Игрок выбрал игру с компьютером
-                    SendMessage(clientSocket, "START_GAME_WITH_COMPUTER");
-
-                    // Инициализируем доску
-                    SendMessage(clientSocket, "BOARD:" + game.GetBoardState());
-                    SendMessage(clientSocket, "TURN: 1");  // Игрок 1 начинает
-                }
-                else if (request.Contains("PLAYER"))
-                {
-                    clientModes[clientSocket] = "PLAYER";  // Игрок выбрал игру с другим игроком
-                    Socket opponent = FindOpponent(clientSocket);  // Ищем соперника
-
+                    Socket opponent = FindOpponent(clientSocket);
                     if (opponent != null)
                     {
-                        playerPairs[clientSocket] = opponent;
-                        playerPairs[opponent] = clientSocket;
-
-                        // Создаем игру для пары игроков
+                        KalahGame game = new KalahGame();
                         games[clientSocket] = game;
                         games[opponent] = game;
 
-                        // Отправляем начальное состояние игры
-                        SendMessage(clientSocket, "START_GAME_WITH_PLAYER");
-                        SendMessage(opponent, "START_GAME_WITH_PLAYER");
+                        playerPairs[clientSocket] = opponent;
+                        playerPairs[opponent] = clientSocket;
 
-                        // Отправляем начальное состояние доски
-                        SendMessage(clientSocket, "BOARD:" + game.GetBoardState());
-                        SendMessage(opponent, "BOARD:" + game.GetBoardState());
+                        SendMessage(clientSocket, "START_GAME");
+                        SendMessage(opponent, "START_GAME");
 
-                        // Определяем, кто начинает первым
-                        SendMessage(clientSocket, "TURN: 1");
-                        SendMessage(opponent, "TURN: 2");
+                        SendMessage(clientSocket, "BOARD_STATE:" + game.GetBoardState());
+                        SendMessage(opponent, "BOARD_STATE:" + game.GetBoardState());
+
+                        SendMessage(clientSocket, "YOUR_TURN");
+                        SendMessage(opponent, "WAIT_TURN");
                     }
                     else
                     {
-                        // Если нет соперника, сообщаем о необходимости подождать
                         SendMessage(clientSocket, "WAITING_FOR_PLAYER");
                     }
                 }
             }
         }
+
 
         // Найти доступного соперника
         static Socket FindOpponent(Socket client)

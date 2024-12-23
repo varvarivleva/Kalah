@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_client\\kalah_client\\kalah_client\\gamepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamemodepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamemodepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamemodepage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,16 +19,16 @@
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\kalah_client.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_client\\kalah_client\\kalah_client\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\loginpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\gamemodepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|solutionrelative:kalah_client\\gamemodepage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4AE0FEC0-7182-4C3E-86EE-212907B13D50}|Kalah_client\\Kalah_client.csproj|C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\kalah_client\\loginpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -98,7 +98,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "LoginPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\LoginPage.xaml.cs",
               "RelativeDocumentMoniker": "Kalah_client\\LoginPage.xaml.cs",
@@ -106,8 +106,7 @@
               "RelativeToolTip": "Kalah_client\\LoginPage.xaml.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAYwDgAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T15:56:03.773Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T15:56:03.773Z"
             },
             {
               "$type": "Document",
@@ -122,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "KalahGame.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\KalahGame.cs",
               "RelativeDocumentMoniker": "Kalah_client\\KalahGame.cs",
@@ -130,19 +129,19 @@
               "RelativeToolTip": "Kalah_client\\KalahGame.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAAowE0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T18:53:35.767Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T18:53:35.767Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
               "Title": "GameModePage.xaml",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameModePage.xaml",
               "RelativeDocumentMoniker": "Kalah_client\\GameModePage.xaml",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameModePage.xaml",
               "RelativeToolTip": "Kalah_client\\GameModePage.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-12-23T17:09:49.753Z"
+              "WhenOpened": "2024-12-23T17:09:49.753Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -152,7 +151,7 @@
               "RelativeDocumentMoniker": "Kalah_client\\GameModePage.xaml.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GameModePage.xaml.cs",
               "RelativeToolTip": "Kalah_client\\GameModePage.xaml.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAowCAAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-20T16:01:52.96Z",
               "EditorCaption": ""
@@ -163,9 +162,9 @@
               "Title": "GamePage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GamePage.xaml.cs",
               "RelativeDocumentMoniker": "Kalah_client\\GamePage.xaml.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GamePage.xaml.cs*",
-              "RelativeToolTip": "Kalah_client\\GamePage.xaml.cs*",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAtwGsAAAAOAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GamePage.xaml.cs",
+              "RelativeToolTip": "Kalah_client\\GamePage.xaml.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwBgAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-20T16:01:55.923Z",
               "EditorCaption": ""
@@ -178,22 +177,21 @@
               "RelativeDocumentMoniker": "Kalah_client\\Kalah_client.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\Kalah_client.cs",
               "RelativeToolTip": "Kalah_client\\Kalah_client.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAADwv0IAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-20T16:05:50.279Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "GamePage.xaml",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GamePage.xaml",
               "RelativeDocumentMoniker": "Kalah_client\\GamePage.xaml",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_client\\Kalah_client\\Kalah_client\\GamePage.xaml",
               "RelativeToolTip": "Kalah_client\\GamePage.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-12-20T16:19:07.814Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T16:19:07.814Z"
             },
             {
               "$type": "Document",

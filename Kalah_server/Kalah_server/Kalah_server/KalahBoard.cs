@@ -62,4 +62,25 @@ class KalahBoard
         int index = player == 1 ? pit : pit + 7;
         return board[index] > 0;
     }
+    public int GetWinner()
+    {
+        // Собираем оставшиеся камни, если игра закончилась
+        if (IsGameOver())
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                board[6] += board[i];
+                board[i] = 0;
+
+                board[13] += board[i + 7];
+                board[i + 7] = 0;
+            }
+        }
+
+        // Сравниваем количество камней в "калахах"
+        if (board[6] > board[13]) return 1;
+        if (board[6] < board[13]) return 2;
+        return 0; // Ничья
+    }
+
 }

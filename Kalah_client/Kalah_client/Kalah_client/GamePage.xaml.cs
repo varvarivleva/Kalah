@@ -6,47 +6,52 @@ namespace KalahClient
 {
     public partial class GamePage : Page
     {
-        private TcpKalahClient _client; // Сохраняем TcpKalahClient
-        private KalahGame _game;
-        private bool _isPlayerTurn=true;
+        private TcpKalahClient _client;
+        private bool _isPlayerTurn;
 
-        // Конструктор, который принимает TcpKalahClient
         public GamePage(TcpKalahClient tcpClient)
         {
             InitializeComponent();
-            _client = tcpClient; // Инициализируем TcpKalahClient
-            _client.OnMessageReceived += OnMessageReceived; // Подписываемся на получение сообщений
-            _game = new KalahGame();
+            _client = tcpClient;
+            _client.OnMessageReceived += OnMessageReceived;
         }
 
         private void OnMessageReceived(string message)
         {
-            // Обработка состояния доски, полученного от сервера
             if (message.StartsWith("BOARD_STATE"))
             {
                 UpdateBoardState(message);
+            }
+            else if (message.StartsWith("YOUR_TURN"))
+            {
+                UpdateTurn("TURN:0");
+            }
+            else if (message.StartsWith("WAIT_TURN"))
+            {
+                UpdateTurn("TURN:1");
+            }
+            else if (message.StartsWith("GAME_OVER"))
+            {
+                HandleGameOver(message);
             }
             else if (message.StartsWith("ERROR"))
             {
                 MessageBox.Show("Ошибка: " + message.Substring(6));
             }
-            UpdateTurnStatus();
         }
 
-        // Обновляем UI с состоянием доски
+
         private void UpdateBoardState(string state)
         {
-            string[] parts = state.Split(',');
-            parts[0] = parts[0].Trim('B','O','A','R','D','_','S','T','A','T','E',':');
+            string[] parts = state.Substring("BOARD_STATE:".Length).Split(',');
 
-            // Обновляем элементы UI через Dispatcher, чтобы избежать ошибок многозадачности
             Dispatcher.Invoke(() =>
             {
-                // Обновляем калахи
-                PlayerKalaha.Content = "Kalah: " + parts[6]; // Игрок 1
-                OpponentKalaha.Content = "Kalah: " + parts[13]; // Игрок 2
+                // Обновляем элементы интерфейса
+                PlayerKalaha.Content = "Kalah: " + parts[6];
+                OpponentKalaha.Content = "Kalah: " + parts[13];
 
-                // Обновляем лунки для игрока 1
+                // Лунки игрока
                 PlayerPit0.Content = parts[0];
                 PlayerPit1.Content = parts[1];
                 PlayerPit2.Content = parts[2];
@@ -54,7 +59,7 @@ namespace KalahClient
                 PlayerPit4.Content = parts[4];
                 PlayerPit5.Content = parts[5];
 
-                // Обновляем лунки для игрока 2
+                // Лунки соперника
                 OpponentPit0.Content = parts[7];
                 OpponentPit1.Content = parts[8];
                 OpponentPit2.Content = parts[9];
@@ -64,55 +69,40 @@ namespace KalahClient
             });
         }
 
-        private void PitButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateTurn(string message)
         {
-            var button = (Button)sender;
-            int pitIndex = int.Parse(button.Tag.ToString());
+            string turn = message.Substring("TURN:".Length).Trim();
+            _isPlayerTurn = (turn == "0");
 
-            // Отправляем запрос на сервер
-            _client.SendMessage($"MOVE,{pitIndex}");
-
-            // Обновляем плашку для хода
-            UpdateTurnStatus();
-
-            // Ожидаем хода противника (или компьютера)
-            WaitForNextMove();
-        }
-
-        // Метод для начала игры, подключаемся к серверу
-        public void StartGame(string serverIp, int serverPort)
-        {
-            if (_client.Connect(serverIp, serverPort))
-            {
-                _client.SendMessage("PLAY");
-            }
-            else
-            {
-                MessageBox.Show("Не удалось подключиться к серверу.");
-            }
-        }
-
-        private void UpdateTurnStatus()
-        {
             Dispatcher.Invoke(() =>
             {
-                // Плашка "Ваш ход" или "Ход соперника"
-                if (_isPlayerTurn)
-                {
-                    TurnText.Text = "Ваш ход";
-                }
-                else
-                {
-                    TurnText.Text = "Ход соперника";
-                }
+                TurnText.Text = _isPlayerTurn ? "Ваш ход" : "Ход соперника";
             });
         }
 
-        private void WaitForNextMove()
+        private void HandleGameOver(string message)
         {
-            // Ожидание хода от серверной логики
-            // Это будет выполнять метод, который будет слушать сервер
-            // и обновлять статус в зависимости от хода.
+            string winner = message.Substring("GAME_OVER:".Length).Trim();
+
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show($"Игра окончена. Победитель: {winner}");
+                NavigationService.GoBack(); // Возврат к выбору режима
+            });
+        }
+
+        private void PitButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!_isPlayerTurn)
+            {
+                MessageBox.Show("Сейчас не ваш ход!");
+                return;
+            }
+
+            var button = (Button)sender;
+            int pitIndex = int.Parse(button.Tag.ToString());
+
+            _client.SendMessage($"MOVE,{pitIndex}");
         }
     }
 }

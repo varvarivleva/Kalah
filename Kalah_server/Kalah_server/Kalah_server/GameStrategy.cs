@@ -1,8 +1,11 @@
 ﻿using System;
+using Kalah_server;
+using System.Net.Sockets;
 
 abstract class GameStrategy
 {
     public abstract string ProcessInput(string input);
+    public abstract void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Action<Socket, string> sendMessage);
 }
 
 class NetworkGameStrategy : GameStrategy
@@ -17,6 +20,44 @@ class NetworkGameStrategy : GameStrategy
 
         board.MakeMove(player, pit);
         return board.GetBoardState();
+    }
+
+    public override void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Action<Socket, string> sendMessage)
+    {
+        if (!games.ContainsKey(client))
+        {
+            sendMessage(client, "ERROR: No active game. Start a new game first.");
+            return;
+        }
+
+        KalahGame game = games[client];
+        string[] parts = request.Split(',');
+        if (!int.TryParse(parts[1], out int pit) || !game.MakeMove(pit))
+        {
+            sendMessage(client, "ERROR: Invalid move.");
+            return;
+        }
+
+        sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
+        if (game.IsGameOver())
+        {
+            int winner = game.GetWinner();
+            sendMessage(client, $"GAME_OVER:Winner is Player {winner}");
+            games.Remove(client);
+        }
+        else
+        {
+            // Логика для компьютера
+            if (!game.IsGameOver())
+            {
+                int aiPit = new Random().Next(0, 6);
+                while (!game.MakeMove(aiPit))
+                {
+                    aiPit = new Random().Next(0, 6);
+                }
+                sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
+            }
+        }
     }
 }
 
@@ -47,6 +88,44 @@ class AIPlayerGameStrategy : GameStrategy
         }
 
         return board.GetBoardState();
+    }
+    public override void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Action<Socket, string> sendMessage)
+    {
+        if (!games.ContainsKey(client))
+        {
+            sendMessage(client, "ERROR: No active game. Start a new game first.");
+            return;
+        }
+
+        KalahGame game = games[client];
+        string[] parts = request.Split(',');
+        if (!int.TryParse(parts[1], out int pit) || game.MakeMove(pit))
+        {
+            sendMessage(client, "ERROR: Invalid move.");
+            return;
+        }
+
+        sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
+        if (game.IsGameOver())
+        {
+            int winner = game.GetWinner();
+            sendMessage(client, $"GAME_OVER:Winner is Player {winner}");
+
+            // Убираем из словарей
+            games.Remove(client);
+            if (playerPairs.ContainsKey(client))
+            {
+                Socket opponent = playerPairs[client];
+                games.Remove(opponent);
+                playerPairs.Remove(client);
+                playerPairs.Remove(opponent);
+            }
+        }
+        else
+        {
+            Socket opponent = playerPairs[client];
+            sendMessage(opponent, "YOUR_TURN");
+        }
     }
 }
 

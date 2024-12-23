@@ -57,6 +57,12 @@ namespace Kalah_server
         {
             return currentPlayer;
         }
+
+        public int GetWinner()
+        {
+            return board.GetWinner();
+        }
+
     }
 
 

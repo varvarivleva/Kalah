@@ -17,20 +17,25 @@ namespace KalahClient
         private void PlayWithComputerButton_Click(object sender, RoutedEventArgs e)
         {
             client.SendMessage("SET_MODE,COMPUTER");
-            NavigateToGamePage();
+            StartGame();
         }
 
         private void PlayWithPlayerButton_Click(object sender, RoutedEventArgs e)
         {
             client.SendMessage("SET_MODE,PLAYER");
+            StartGame();
+        }
+
+        private void StartGame()
+        {
+            client.SendMessage("PLAY");
             NavigateToGamePage();
         }
 
         private void NavigateToGamePage()
         {
-            GamePage gamePage = new GamePage(client);  // Передаем клиента на следующую страницу
-            this.NavigationService.Navigate(gamePage);  // Навигация с использованием NavigationService
-            client.SendMessage("MOVE,-1");
+            GamePage gamePage = new GamePage(client);
+            this.NavigationService.Navigate(gamePage);
         }
     }
 }
