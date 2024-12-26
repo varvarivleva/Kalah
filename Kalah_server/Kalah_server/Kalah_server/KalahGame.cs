@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,9 @@ namespace Kalah_server
         // Метод для выполнения хода
         public bool MakeMove(int pitIndex)
         {
-            if (!board.CanMove(currentPlayer, pitIndex))
+            int index = currentPlayer == 1 ? pitIndex : pitIndex + 7;
+
+            if (!board.CanMove(currentPlayer, index))
             {
                 return false; // Невозможный ход (пустая лунка или неправильный индекс)
             }
@@ -28,16 +31,10 @@ namespace Kalah_server
             // Сделать ход
             board.MakeMove(currentPlayer, pitIndex);
 
-            // Проверка на окончание игры
-            if (board.IsGameOver())
-            {
-                return true; // Игра завершена
-            }
-
             // Меняем игрока
             currentPlayer = (currentPlayer == 1) ? 2 : 1;
 
-            return false; // Ход завершен, игра продолжается
+            return true; // Ход завершен, игра продолжается
         }
 
         // Получение текущего состояния доски для отправки клиентам
@@ -45,6 +42,24 @@ namespace Kalah_server
         {
             return board.GetBoardState();
         }
+
+        public string GetBoardStateForPlayer(int player)
+        {
+            int[] boardState = board.GetRawBoard();
+            if (player == 1)
+            {
+                return string.Join(",", boardState); // Игрок 1 видит доску как есть
+            }
+            else
+            {
+                // Для игрока 2 переворачиваем доску
+                int[] player2View = new int[14];
+                Array.Copy(boardState, 7, player2View, 0, 7); // Копируем 7-13
+                Array.Copy(boardState, 0, player2View, 7, 7); // Копируем 0-6
+                return string.Join(",", player2View);
+            }
+        }
+
 
         // Проверка на завершение игры
         public bool IsGameOver()

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Kalah_server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d791feda009aff5b475211a8d88f0ecc4dc91fa5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+72cb5616197f5bd89288d734e0f3148ae66f8ac7")]
 [assembly: System.Reflection.AssemblyProductAttribute("Kalah_server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Kalah_server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

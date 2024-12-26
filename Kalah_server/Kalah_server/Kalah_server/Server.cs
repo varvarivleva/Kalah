@@ -15,6 +15,7 @@ namespace Kalah_server
         private static Dictionary<Socket, KalahGame> games = new Dictionary<Socket, KalahGame>(); // Игры
         private static Dictionary<Socket, GameStrategy> strategies = new Dictionary<Socket, GameStrategy>(); // Стратегии
         private static Dictionary<Socket, Socket> playerPairs = new Dictionary<Socket, Socket>(); // Пары игроков
+        private static Queue<Socket> waitingRoom = new Queue<Socket>(); // Очередь ожидания
 
         private static object lockObj = new object();
 
@@ -209,9 +210,11 @@ namespace Kalah_server
             {
                 lock (lockObj)
                 {
-                    Socket opponent = FindOpponent(clientSocket);
-                    if (opponent != null)
+                    if (waitingRoom.Count > 0)
                     {
+                        // Найти оппонента в очереди ожидания
+                        Socket opponent = waitingRoom.Dequeue();
+
                         KalahGame game = new KalahGame();
                         games[clientSocket] = game;
                         games[opponent] = game;
@@ -219,17 +222,21 @@ namespace Kalah_server
                         playerPairs[clientSocket] = opponent;
                         playerPairs[opponent] = clientSocket;
 
-                        SendMessage(clientSocket, "START_GAME");
-                        SendMessage(opponent, "START_GAME");
+                        // Определить, кто ходит первым
+                        Random random = new Random();
+                        Socket firstPlayer = random.Next(2) == 0 ? clientSocket : opponent;
+                        Socket secondPlayer = firstPlayer == clientSocket ? opponent : clientSocket;
 
-                        SendMessage(clientSocket, "BOARD_STATE:" + game.GetBoardState());
-                        SendMessage(opponent, "BOARD_STATE:" + game.GetBoardState());
+                        SendMessage(firstPlayer, "YOUR_TURN");
+                        SendMessage(secondPlayer, "WAIT_TURN");
 
-                        SendMessage(clientSocket, "YOUR_TURN");
-                        SendMessage(opponent, "WAIT_TURN");
+                        SendMessage(firstPlayer, "BOARD_STATE:" + game.GetBoardStateForPlayer(1)); // Для игрока 1
+                        SendMessage(secondPlayer, "BOARD_STATE:" + game.GetBoardStateForPlayer(2)); // Для игрока 2
                     }
                     else
                     {
+                        // Добавить в очередь ожидания
+                        waitingRoom.Enqueue(clientSocket);
                         SendMessage(clientSocket, "WAITING_FOR_PLAYER");
                     }
                 }

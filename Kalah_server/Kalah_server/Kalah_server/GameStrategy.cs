@@ -31,6 +31,14 @@ class NetworkGameStrategy : GameStrategy
         }
 
         KalahGame game = games[client];
+
+        int currentPlayerIndex = game.GetCurrentPlayer();
+        //if (game.GetCurrentPlayer() != currentPlayerIndex)
+        //{
+        //    sendMessage(client, "ERROR: Not your turn.");
+        //    return;
+        //}
+
         string[] parts = request.Split(',');
         if (!int.TryParse(parts[1], out int pit) || !game.MakeMove(pit))
         {
@@ -38,26 +46,51 @@ class NetworkGameStrategy : GameStrategy
             return;
         }
 
-        sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
+        // Отправляем состояние доски обоим игрокам
+        Socket opponent = playerPairs[client];
+        int opponentIndex;
+        // Отправляем состояние доски обоим игрокам
+        if (currentPlayerIndex == 1)
+            opponentIndex = 2;
+        else
+            opponentIndex = 1;
+
+        sendMessage(client, "BOARD_STATE:" + game.GetBoardStateForPlayer(currentPlayerIndex));
+        sendMessage(opponent, "BOARD_STATE:" + game.GetBoardStateForPlayer(opponentIndex));
+
         if (game.IsGameOver())
         {
             int winner = game.GetWinner();
-            sendMessage(client, $"GAME_OVER:Winner is Player {winner}");
+            sendMessage(client, $"GAME_OVER: Winner is Player {winner}");
+            sendMessage(opponent, $"GAME_OVER: Winner is Player {winner}");
+
+            // Убираем из словарей
             games.Remove(client);
+            games.Remove(opponent);
+            playerPairs.Remove(client);
+            playerPairs.Remove(opponent);
         }
         else
         {
-            // Логика для компьютера
-            if (!game.IsGameOver())
+            // Меняем очередь
+            if (game.GetCurrentPlayer() == currentPlayerIndex)
             {
-                int aiPit = new Random().Next(0, 6);
-                while (!game.MakeMove(aiPit))
-                {
-                    aiPit = new Random().Next(0, 6);
-                }
-                sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
+                sendMessage(client, "YOUR_TURN");
+                sendMessage(opponent, "WAIT_TURN");
+            }
+            else
+            {
+                sendMessage(client, "WAIT_TURN");
+                sendMessage(opponent, "YOUR_TURN");
             }
         }
+    }
+
+
+    // Получение индекса игрока (1 или 2)
+    private int GetPlayerIndex(Socket client, Dictionary<Socket, Socket> playerPairs)
+    {
+        return playerPairs.ContainsKey(client) ? 1 : 2;
     }
 }
 
@@ -99,7 +132,7 @@ class AIPlayerGameStrategy : GameStrategy
 
         KalahGame game = games[client];
         string[] parts = request.Split(',');
-        if (!int.TryParse(parts[1], out int pit) || game.MakeMove(pit))
+        if (!int.TryParse(parts[1], out int pit) || !game.MakeMove(pit))
         {
             sendMessage(client, "ERROR: Invalid move.");
             return;
@@ -110,22 +143,22 @@ class AIPlayerGameStrategy : GameStrategy
         {
             int winner = game.GetWinner();
             sendMessage(client, $"GAME_OVER:Winner is Player {winner}");
-
-            // Убираем из словарей
             games.Remove(client);
-            if (playerPairs.ContainsKey(client))
-            {
-                Socket opponent = playerPairs[client];
-                games.Remove(opponent);
-                playerPairs.Remove(client);
-                playerPairs.Remove(opponent);
-            }
         }
         else
         {
-            Socket opponent = playerPairs[client];
-            sendMessage(opponent, "YOUR_TURN");
+            // Логика для компьютера
+            if (!game.IsGameOver())
+            {
+                int aiPit = new Random().Next(0, 6);
+                while (!game.MakeMove(aiPit))
+                {
+                    aiPit = new Random().Next(0, 6);
+                }
+                sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
+            }
         }
     }
+
 }
 

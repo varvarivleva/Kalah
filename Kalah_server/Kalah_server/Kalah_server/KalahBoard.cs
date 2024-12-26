@@ -13,6 +13,12 @@ class KalahBoard
         }
     }
 
+    public int[] GetRawBoard()
+    {
+        return (int[])board.Clone(); // Возвращаем копию массива, чтобы предотвратить изменения
+    }
+
+
     public void MakeMove(int player, int pit)
     {
         int index = player == 1 ? pit : pit + 7;
@@ -51,6 +57,20 @@ class KalahBoard
     {
         return string.Join(",", board);
     }
+    public string GetReverseBoardState()
+    {
+        int[] newBoard = new int[board.Length];
+        for (int i = 0; i < 7; i++)
+        {
+            newBoard[i] = board[i+7];
+        }
+        for (int i = 7; i < 14; i++)
+        {
+            newBoard[i] = board[i - 7];
+        }
+
+        return string.Join(",", newBoard);
+    }
 
     public bool IsGameOver()
     {
@@ -59,8 +79,8 @@ class KalahBoard
 
     public bool CanMove(int player, int pit)
     {
-        int index = player == 1 ? pit : pit + 7;
-        return board[index] > 0;
+        //int index = player == 1 ? pit : pit + 7;
+        return board[pit] > 0;
     }
     public int GetWinner()
     {
