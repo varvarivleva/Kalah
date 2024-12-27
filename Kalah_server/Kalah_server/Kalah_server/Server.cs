@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Добавьте пространство имен для работы с Database
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -10,7 +11,6 @@ namespace Kalah_server
     class KalahServer
     {
         private static List<Socket> clients = new List<Socket>();
-        private static Dictionary<string, string> users = new Dictionary<string, string>(); // Пользователи
         private static Dictionary<Socket, string> clientModes = new Dictionary<Socket, string>(); // Режимы клиентов
         private static Dictionary<Socket, KalahGame> games = new Dictionary<Socket, KalahGame>(); // Игры
         private static Dictionary<Socket, GameStrategy> strategies = new Dictionary<Socket, GameStrategy>(); // Стратегии
@@ -19,7 +19,7 @@ namespace Kalah_server
 
         private static object lockObj = new object();
 
-         static void Main()
+        static void Main()
         {
             Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             serverSocket.Bind(new IPEndPoint(IPAddress.Any, 4563)); // Порт для подключения
@@ -117,17 +117,17 @@ namespace Kalah_server
         // Обработка запроса на регистрацию
         static void HandleRegisterRequest(Socket clientSocket, string request)
         {
-            string[] parts = request.Split(',');
-            string username = parts[1];
-            string password = parts[2];
+            string[] parts = request.Substring("REGISTER:".Length).Split(',');
+            string username = parts[0];
+            string password = parts[1];
 
-            if (users.ContainsKey(username))
+            if (Database.UserExists(username))
             {
                 SendMessage(clientSocket, "ERROR: Username already exists.");
             }
             else
             {
-                users[username] = password;
+                Database.AddUser(username, password); // Сохраняем пользователя в базе данных
                 SendMessage(clientSocket, "REGISTER:OK");
             }
         }
@@ -135,11 +135,11 @@ namespace Kalah_server
         // Обработка запроса на логин
         static void HandleLoginRequest(Socket clientSocket, string request)
         {
-            string[] parts = request.Split(',');
-            string username = parts[1];
-            string password = parts[2];
+            string[] parts = request.Substring("LOGIN:".Length).Split(',');
+            string username = parts[0];
+            string password = parts[1];
 
-            if (users.ContainsKey(username) && users[username] == password)
+            if (Database.Authorize(username, password))
             {
                 SendMessage(clientSocket, "LOGIN:OK");
             }
@@ -161,7 +161,6 @@ namespace Kalah_server
             GameStrategy strategy = strategies[clientSocket];
             strategy.ProcessMove(clientSocket, request, games, playerPairs, SendMessage);
         }
-
 
         // Обработка запроса на выбор режима игры
         static void HandleSetModeRequest(Socket clientSocket, string request)
@@ -188,6 +187,7 @@ namespace Kalah_server
                 SendMessage(clientSocket, "ERROR: Invalid game mode.");
             }
         }
+
         // Обработка запроса на игру
         static void HandlePlayRequest(Socket clientSocket, string request)
         {
@@ -202,7 +202,6 @@ namespace Kalah_server
             {
                 KalahGame game = new KalahGame();
                 games[clientSocket] = game;
-                //SendMessage(clientSocket, "START_GAME");
                 SendMessage(clientSocket, "BOARD_STATE:" + game.GetBoardState());
                 SendMessage(clientSocket, "YOUR_TURN");
             }
@@ -241,20 +240,6 @@ namespace Kalah_server
                     }
                 }
             }
-        }
-
-
-        // Найти доступного соперника
-        static Socket FindOpponent(Socket client)
-        {
-            foreach (Socket otherClient in clients)
-            {
-                if (otherClient != client && !playerPairs.ContainsKey(otherClient))
-                {
-                    return otherClient;
-                }
-            }
-            return null;
         }
 
         // Отправка сообщения клиенту

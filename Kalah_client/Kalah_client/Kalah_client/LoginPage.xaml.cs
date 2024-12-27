@@ -35,7 +35,7 @@ namespace KalahClient
             }
 
             // Отправляем запрос на логин
-            string message = $"LOGIN,{username},{password}";
+            string message = $"LOGIN:{username},{password}";
             client.SendMessage(message);
         }
 
@@ -59,7 +59,7 @@ namespace KalahClient
             }
 
             // Отправляем запрос на регистрацию
-            string message = $"REGISTER,{username},{password}";
+            string message = $"REGISTER:{username},{password}";
             client.SendMessage(message);
         }
 

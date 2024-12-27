@@ -43,13 +43,6 @@ public static class Database
         return false;  // Пользователь не найден или пароль неверный
     }
 
-    // Метод для добавления нового пользователя
-    public static void AddUser(string username, string password, int score = 0)
-    {
-        // Добавляем нового пользователя в файл
-        File.AppendAllText(FilePath, $"{username},{password},{score}\n");
-    }
-
     // Метод для создания базы данных (пересоздает файл)
     private static void CreateDatabase()
     {
@@ -61,7 +54,7 @@ public static class Database
             // Заполняем файл дефолтным пользователем
             using (var writer = new StreamWriter(fileStream))
             {
-                writer.WriteLine("admin,admin,0");  // Добавляем пользователя по умолчанию
+                writer.WriteLine("admin,1234");  // Добавляем пользователя по умолчанию
             }
         }
     }
@@ -79,10 +72,10 @@ public static class Database
         return users != null ? users.index + 1 : -1;
     }
 
-    public static void AddUser(string username, string password, string email)
+    public static void AddUser(string username, string password)
     {
         var id = File.ReadLines(FilePath).Count() + 1;
-        File.AppendAllText(FilePath, $"{id},{username},{password},{email},0\n");
+        File.AppendAllText(FilePath, $"{username},{password}\n");
     }
 
 }
