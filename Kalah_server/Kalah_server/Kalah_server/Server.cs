@@ -1,6 +1,7 @@
 ﻿// Добавьте пространство имен для работы с Database
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -15,6 +16,8 @@ namespace Kalah_server
         private static Dictionary<Socket, KalahGame> games = new Dictionary<Socket, KalahGame>(); // Игры
         private static Dictionary<Socket, GameStrategy> strategies = new Dictionary<Socket, GameStrategy>(); // Стратегии
         private static Dictionary<Socket, Socket> playerPairs = new Dictionary<Socket, Socket>(); // Пары игроков
+        private static Dictionary<Socket, int> playerScore = new Dictionary<Socket, int>(); // Пары игроков
+        private static Dictionary<Socket, string> playerName = new Dictionary<Socket, string>(); // Имя игрока на сокете
         private static Queue<Socket> waitingRoom = new Queue<Socket>(); // Очередь ожидания
 
         private static object lockObj = new object();
@@ -92,12 +95,14 @@ namespace Kalah_server
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка при обработке клиента: {ex.Message}");
+                clients.Remove(clientSocket);
             }
             finally
             {
                 lock (lockObj)
                 {
                     clients.Remove(clientSocket); // Удаляем клиента из списка
+                                                  // Убираем из словарей
                     if (playerPairs.ContainsKey(clientSocket))
                     {
                         Socket opponent = playerPairs[clientSocket];
@@ -121,14 +126,15 @@ namespace Kalah_server
             string username = parts[0];
             string password = parts[1];
 
-            if (Database.UserExists(username))
+            if (UserDatabase.UserExists(username))
             {
                 SendMessage(clientSocket, "ERROR: Username already exists.");
             }
             else
             {
-                Database.AddUser(username, password); // Сохраняем пользователя в базе данных
+                UserDatabase.AddUser(username, password); // Сохраняем пользователя в базе данных
                 SendMessage(clientSocket, "REGISTER:OK");
+                playerName[clientSocket] = username;
             }
         }
 
@@ -139,9 +145,10 @@ namespace Kalah_server
             string username = parts[0];
             string password = parts[1];
 
-            if (Database.Authorize(username, password))
+            if (UserDatabase.Authorize(username, password))
             {
                 SendMessage(clientSocket, "LOGIN:OK");
+                playerName[clientSocket] = username;
             }
             else
             {
@@ -159,7 +166,7 @@ namespace Kalah_server
             }
 
             GameStrategy strategy = strategies[clientSocket];
-            strategy.ProcessMove(clientSocket, request, games, playerPairs, SendMessage);
+            strategy.ProcessMove(clientSocket, request, games, playerPairs, playerScore, playerName, SendMessage);
         }
 
         // Обработка запроса на выбор режима игры
@@ -241,6 +248,7 @@ namespace Kalah_server
                 }
             }
         }
+
 
         // Отправка сообщения клиенту
         static void SendMessage(Socket client, string message)

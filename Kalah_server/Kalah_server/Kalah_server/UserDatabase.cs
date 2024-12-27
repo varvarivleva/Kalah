@@ -2,12 +2,12 @@
 using System.IO;
 using System.Linq;
 
-public static class Database
+public static class UserDatabase
 {
     private static readonly string FilePath = "users.txt";  // Путь к файлу с данными пользователей
 
     // Метод для инициализации базы данных (создание файла, если его нет)
-    static Database()
+    static UserDatabase()
     {
         if (!File.Exists(FilePath))
         {

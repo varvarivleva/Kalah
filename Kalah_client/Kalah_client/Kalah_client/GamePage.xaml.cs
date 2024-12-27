@@ -87,7 +87,7 @@ namespace KalahClient
             Dispatcher.Invoke(() =>
             {
                 MessageBox.Show($"Игра окончена. Победитель: {winner}");
-                NavigationService.GoBack(); // Возврат к выбору режима
+                NavigateToResultPage(); // Возврат к выбору режима
             });
         }
 
@@ -103,6 +103,11 @@ namespace KalahClient
             int pitIndex = int.Parse(button.Tag.ToString());
 
             _client.SendMessage($"MOVE,{pitIndex}");
+        }
+        private void NavigateToResultPage()
+        {
+            ResultPage resultPage = new ResultPage(_client);
+            this.NavigationService.Navigate(resultPage);
         }
     }
 }

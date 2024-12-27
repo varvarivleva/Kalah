@@ -1,0 +1,5 @@
+user,18600
+user,16000
+admin,15700
+admin,14400
+admin,13700

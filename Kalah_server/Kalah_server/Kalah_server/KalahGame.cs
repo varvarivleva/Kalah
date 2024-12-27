@@ -4,6 +4,8 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Kalah_server
 {
@@ -11,6 +13,7 @@ namespace Kalah_server
     {
         private KalahBoard board;
         private int currentPlayer;
+        private int[] scores = [0,0];
 
         public KalahGame()
         {
@@ -29,12 +32,17 @@ namespace Kalah_server
             }
 
             // Сделать ход
-            board.MakeMove(currentPlayer, pitIndex);
+            board.MakeMove(currentPlayer, pitIndex, scores);
 
             // Меняем игрока
             currentPlayer = (currentPlayer == 1) ? 2 : 1;
 
             return true; // Ход завершен, игра продолжается
+        }
+
+        public int GetScoreForPlayer(int player)
+        {
+            return scores[player-1];
         }
 
         // Получение текущего состояния доски для отправки клиентам
@@ -77,6 +85,7 @@ namespace Kalah_server
         {
             return board.GetWinner();
         }
+
 
     }
 

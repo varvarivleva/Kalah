@@ -19,7 +19,7 @@ class KalahBoard
     }
 
 
-    public void MakeMove(int player, int pit)
+    public void MakeMove(int player, int pit, int[] score)
     {
         int index = player == 1 ? pit : pit + 7;
         int stones = board[index];
@@ -34,6 +34,7 @@ class KalahBoard
 
             board[index]++;
             stones--;
+            score[player - 1] += 100;
         }
 
         // Check extra turn or capture logic

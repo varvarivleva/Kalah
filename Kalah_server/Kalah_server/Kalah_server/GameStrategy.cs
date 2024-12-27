@@ -4,25 +4,14 @@ using System.Net.Sockets;
 
 abstract class GameStrategy
 {
-    public abstract string ProcessInput(string input);
-    public abstract void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Action<Socket, string> sendMessage);
+    public abstract void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Dictionary<Socket, int> playerScore, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage);
 }
 
 class NetworkGameStrategy : GameStrategy
 {
     private KalahBoard board = new KalahBoard();
 
-    public override string ProcessInput(string input)
-    {
-        string[] parts = input.Split(',');
-        int player = int.Parse(parts[0]);
-        int pit = int.Parse(parts[1]);
-
-        board.MakeMove(player, pit);
-        return board.GetBoardState();
-    }
-
-    public override void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Action<Socket, string> sendMessage)
+    public override void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Dictionary<Socket, int> playerScore, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage)
     {
         if (!games.ContainsKey(client))
         {
@@ -33,11 +22,6 @@ class NetworkGameStrategy : GameStrategy
         KalahGame game = games[client];
 
         int currentPlayerIndex = game.GetCurrentPlayer();
-        //if (game.GetCurrentPlayer() != currentPlayerIndex)
-        //{
-        //    sendMessage(client, "ERROR: Not your turn.");
-        //    return;
-        //}
 
         string[] parts = request.Split(',');
         if (!int.TryParse(parts[1], out int pit) || !game.MakeMove(pit))
@@ -63,6 +47,22 @@ class NetworkGameStrategy : GameStrategy
             int winner = game.GetWinner();
             sendMessage(client, $"GAME_OVER: Winner is Player {winner}");
             sendMessage(opponent, $"GAME_OVER: Winner is Player {winner}");
+            Thread.Sleep(3000);
+            var clientScore = game.GetScoreForPlayer(currentPlayerIndex);
+            var opponentScore = game.GetScoreForPlayer(opponentIndex);
+            sendMessage(client, $"SCORE:{clientScore}");
+            TopScoresPlayersDatabase.SaveScore(playerName[client], clientScore);
+            sendMessage(opponent, $"SCORE:{opponentScore}");
+            TopScoresPlayersDatabase.SaveScore(playerName[client], opponentScore);
+            Thread.Sleep(1000);
+            var arrayScore = TopScoresPlayersDatabase.GetTopScores();
+            string result = "TOP_SCORES:";
+            for (int i = 0; i < arrayScore.Length; i++)
+            {
+                result += arrayScore[i] + ',';
+            }
+            sendMessage(client, result);
+            sendMessage(opponent, result);
 
             // Убираем из словарей
             games.Remove(client);
@@ -99,30 +99,7 @@ class AIPlayerGameStrategy : GameStrategy
     private KalahBoard board = new KalahBoard();
     private Random random = new Random();
 
-    public override string ProcessInput(string input)
-    {
-        // Игрок 1 (пользовательский) ход
-        string[] parts = input.Split(',');
-        int player = 1;
-        int pit = int.Parse(parts[1]);
-
-        board.MakeMove(player, pit);
-
-        if (!board.IsGameOver())
-        {
-            // Ход компьютера
-            int aiPit;
-            do
-            {
-                aiPit = random.Next(0, 6);
-            } while (!board.CanMove(2, aiPit));
-
-            board.MakeMove(2, aiPit);
-        }
-
-        return board.GetBoardState();
-    }
-    public override void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Action<Socket, string> sendMessage)
+    public override void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Dictionary<Socket, int> playerScore, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage)
     {
         if (!games.ContainsKey(client))
         {
@@ -143,6 +120,19 @@ class AIPlayerGameStrategy : GameStrategy
         {
             int winner = game.GetWinner();
             sendMessage(client, $"GAME_OVER:Winner is Player {winner}");
+            Thread.Sleep(3000);
+            var clientScore = game.GetScoreForPlayer(1);
+            sendMessage(client, $"SCORE:{clientScore}");
+            TopScoresComputerDatabase.SaveScore(playerName[client], clientScore);
+            Thread.Sleep(1000);
+            var arrayScore = TopScoresComputerDatabase.GetTopScores();
+            string result = "TOP_SCORES:";
+            for (int i = 0; i < arrayScore.Length; i++)
+            {
+                result += arrayScore[i] + ',';
+            }
+            sendMessage(client, result);
+
             games.Remove(client);
         }
         else

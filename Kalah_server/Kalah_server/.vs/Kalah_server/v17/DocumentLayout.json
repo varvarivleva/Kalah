@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\kalahboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\kalahboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\kalahgame.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\topscoresdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\topscoresdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\userdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\userdatabase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\kalahboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\kalahboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\kalah_server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -66,39 +70,68 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "TopScoresDatabase.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\TopScoresDatabase.cs",
+              "RelativeDocumentMoniker": "Kalah_server\\TopScoresDatabase.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\TopScoresDatabase.cs",
+              "RelativeToolTip": "Kalah_server\\TopScoresDatabase.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAB0AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T20:23:22.117Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserDatabase.cs",
+              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\UserDatabase.cs",
+              "RelativeDocumentMoniker": "Kalah_server\\UserDatabase.cs",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\UserDatabase.cs",
+              "RelativeToolTip": "Kalah_server\\UserDatabase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-16T19:14:45.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "KalahBoard.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahBoard.cs",
               "RelativeDocumentMoniker": "Kalah_server\\KalahBoard.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahBoard.cs",
               "RelativeToolTip": "Kalah_server\\KalahBoard.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAABMAAAAAAAAAAAAYwCQAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T16:56:59.811Z"
+              "WhenOpened": "2024-12-23T16:56:59.811Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "KalahGame.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahGame.cs",
               "RelativeDocumentMoniker": "Kalah_server\\KalahGame.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahGame.cs",
               "RelativeToolTip": "Kalah_server\\KalahGame.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAiwBYAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAhwCoAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T19:26:28.872Z"
+              "WhenOpened": "2024-12-23T19:26:28.872Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "GameStrategy.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\GameStrategy.cs",
               "RelativeDocumentMoniker": "Kalah_server\\GameStrategy.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\GameStrategy.cs",
               "RelativeToolTip": "Kalah_server\\GameStrategy.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAgwCoAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAswH4AAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T16:43:24.382Z"
+              "WhenOpened": "2024-12-20T16:43:24.382Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -108,27 +141,14 @@
               "RelativeDocumentMoniker": "Kalah_server\\Server.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Server.cs",
               "RelativeToolTip": "Kalah_server\\Server.cs",
-              "ViewState": "AgIAAHIAAAAAAAAAAAAuwHkAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAAPQAAAAAAAAAAAAwwPoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T16:51:41.733Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Database.cs",
-              "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Database.cs",
-              "RelativeDocumentMoniker": "Kalah_server\\Database.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Database.cs",
-              "RelativeToolTip": "Kalah_server\\Database.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAcwE0AAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-16T19:14:45.503Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "LoginRequest.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\LoginRequest.cs",
               "RelativeDocumentMoniker": "Kalah_server\\LoginRequest.cs",
@@ -140,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Kalah_server.csproj",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Kalah_server.csproj",
               "RelativeDocumentMoniker": "Kalah_server\\Kalah_server.csproj",
