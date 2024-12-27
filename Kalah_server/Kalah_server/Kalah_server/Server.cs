@@ -128,7 +128,7 @@ namespace Kalah_server
             else
             {
                 users[username] = password;
-                SendMessage(clientSocket, "SUCCESS:REGISTER");
+                SendMessage(clientSocket, "REGISTER:OK");
             }
         }
 
@@ -141,7 +141,7 @@ namespace Kalah_server
 
             if (users.ContainsKey(username) && users[username] == password)
             {
-                SendMessage(clientSocket, "SUCCESS:LOGIN");
+                SendMessage(clientSocket, "LOGIN:OK");
             }
             else
             {
@@ -166,21 +166,21 @@ namespace Kalah_server
         // Обработка запроса на выбор режима игры
         static void HandleSetModeRequest(Socket clientSocket, string request)
         {
-            string[] parts = request.Split(',');
+            string[] parts = request.Split(':');
             string mode = parts[1];
 
             if (mode == "COMPUTER")
             {
                 clientModes[clientSocket] = "COMPUTER";
                 strategies[clientSocket] = new AIPlayerGameStrategy(); // Устанавливаем стратегию
-                SendMessage(clientSocket, "SUCCESS:MODE_SET,COMPUTER");
+                SendMessage(clientSocket, "SET_MODE:OK");
                 Console.WriteLine($"Клиент {clientSocket.RemoteEndPoint} выбрал режим: Игра с компьютером.");
             }
             else if (mode == "PLAYER")
             {
                 clientModes[clientSocket] = "PLAYER";
                 strategies[clientSocket] = new NetworkGameStrategy(); // Устанавливаем стратегию
-                SendMessage(clientSocket, "SUCCESS:MODE_SET,PLAYER");
+                SendMessage(clientSocket, "SET_MODE:OK");
                 Console.WriteLine($"Клиент {clientSocket.RemoteEndPoint} выбрал режим: Игра с другим игроком.");
             }
             else

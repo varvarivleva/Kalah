@@ -12,17 +12,35 @@ namespace KalahClient
         {
             InitializeComponent();
             client = tcpClient;
+            client.OnMessageReceived += OnMessageReceived;
+        }
+
+        private void OnMessageReceived(string message)
+        {
+            if (message.StartsWith("WAITING_FOR_PLAYER"))
+            {
+                WatingForPlayer(message);
+            }
+            else if (message.StartsWith("ERROR"))
+            {
+                MessageBox.Show("Ошибка: " + message.Substring(6));
+            }
+        }
+
+        private void WatingForPlayer(string message)
+        {
+            MessageBox.Show("Ожидаем подключения второго игрока");
         }
 
         private void PlayWithComputerButton_Click(object sender, RoutedEventArgs e)
         {
-            client.SendMessage("SET_MODE,COMPUTER");
+            client.SendMessage("SET_MODE:COMPUTER");
             StartGame();
         }
 
         private void PlayWithPlayerButton_Click(object sender, RoutedEventArgs e)
         {
-            client.SendMessage("SET_MODE,PLAYER");
+            client.SendMessage("SET_MODE:PLAYER");
             StartGame();
         }
 

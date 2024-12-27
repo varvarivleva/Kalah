@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\kalahboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\kalahboard.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\gamestrategy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|solutionrelative:kalah_server\\server.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A74EC0A8-2C70-4FA3-8112-E18D72391ED3}|Kalah_server\\Kalah_server.csproj|c:\\users\\user\\source\\repos\\kalah\\kalah_server\\kalah_server\\kalah_server\\kalah_server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -38,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,33 +66,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "KalahBoard.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahBoard.cs",
               "RelativeDocumentMoniker": "Kalah_server\\KalahBoard.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahBoard.cs",
               "RelativeToolTip": "Kalah_server\\KalahBoard.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAewFEAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-23T16:56:59.811Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "KalahGame.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahGame.cs",
               "RelativeDocumentMoniker": "Kalah_server\\KalahGame.cs",
               "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\KalahGame.cs",
               "RelativeToolTip": "Kalah_server\\KalahGame.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAiwBkAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAiwBYAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-23T19:26:28.872Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-23T19:26:28.872Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "GameStrategy.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\GameStrategy.cs",
               "RelativeDocumentMoniker": "Kalah_server\\GameStrategy.cs",
@@ -100,18 +99,17 @@
               "RelativeToolTip": "Kalah_server\\GameStrategy.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAgwCoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-20T16:43:24.382Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-20T16:43:24.382Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Server.cs",
               "DocumentMoniker": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Server.cs",
               "RelativeDocumentMoniker": "Kalah_server\\Server.cs",
-              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Server.cs",
-              "RelativeToolTip": "Kalah_server\\Server.cs",
-              "ViewState": "AgIAAIsAAAAAAAAAAAAmwKEAAAAMAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\user\\source\\repos\\Kalah\\Kalah_server\\Kalah_server\\Kalah_server\\Server.cs*",
+              "RelativeToolTip": "Kalah_server\\Server.cs*",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAowKgAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-15T16:51:41.733Z",
               "EditorCaption": ""
@@ -126,8 +124,7 @@
               "RelativeToolTip": "Kalah_server\\Database.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAowFgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-16T19:14:45.503Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-16T19:14:45.503Z"
             },
             {
               "$type": "Document",
@@ -151,8 +148,7 @@
               "RelativeToolTip": "Kalah_server\\Kalah_server.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-12-16T18:39:18.572Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-16T18:39:18.572Z"
             }
           ]
         }

@@ -67,7 +67,7 @@ namespace KalahClient
         {
             Dispatcher.Invoke(() =>
             {
-                if (message.StartsWith("SUCCESS:LOGIN") || message.StartsWith("SUCCESS:REGISTER"))
+                if (message.StartsWith("LOGIN:OK") || message.StartsWith("REGISTER:OK"))
                 {
                     MessageBox.Show("Operation successful!");
                     GameModePage gameModePage = new GameModePage(client);  // Передаем клиента в GameModePage
