@@ -109,5 +109,15 @@ namespace KalahClient
             ResultPage resultPage = new ResultPage(_client);
             this.NavigationService.Navigate(resultPage);
         }
+
+        private void OpponentKalaha_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PlayerKalaha_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -2,13 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:av="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="av" x:Class="KalahClient.ResultPage"
-      Title="Results" av:DesignHeight="393.91" av:DesignWidth="470.6">
-    <Grid>
-        <TextBlock Text="Результаты игры" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,21,0,0" />
-        <Button Content="Главное меню" Width="244" Height="39" VerticalAlignment="Top" HorizontalAlignment="Center"
-                Click="MainMenuButton_Click" Margin="0,345,0,0" />
-        <TextBlock Name ="PlayerScore" Text="Результаты игры" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,86,0,0" />
-        <TextBlock FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,143,0,0" ><Run Language="ru-ru" Text="Лучшие результаты"/></TextBlock>
-        <TextBlock x:Name ="TopScores" Text="" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="37,190,0,0" />
+      Title="Results">
+    <Grid Height="900" Width="1500">
+        <TextBlock Text="Результаты игры" FontSize="48" Margin="544,30,544,793" FontWeight="Bold" TextAlignment="Center" />
+        <Button Content="Главное меню" Margin="400,706,294,94" Height="100" Width="700" FontSize="36" Background="#FF6BBB6B" />
+        <TextBlock Name ="PlayerScore" Text="Результаты игры" FontSize="48" Margin="113,119,233,695" />
+        <TextBlock Text="Лучшие результаты" FontSize="48" Margin="505,227,505,595" FontWeight="Bold" TextAlignment="Center" />
+        <TextBlock x:Name ="TopScores" Text="" FontSize="48" Margin="111,317,36,228" />
     </Grid>
 </Page>
