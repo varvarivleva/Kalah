@@ -5,6 +5,7 @@ using System.Net.Sockets;
 abstract class GameStrategy
 {
     public abstract void ProcessMove(Socket client, string request, Dictionary<Socket, KalahGame> games, Dictionary<Socket, Socket> playerPairs, Dictionary<Socket, int> playerScore, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage);
+    public abstract void GetTopScoreForPlayer (Socket client, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage);
 }
 
 class NetworkGameStrategy : GameStrategy
@@ -55,26 +56,9 @@ class NetworkGameStrategy : GameStrategy
                 sendMessage(client, "GAME_OVER: Вы проиграли");
                 sendMessage(opponent, "GAME_OVER: Вы выиграли!");
             }
-            Thread.Sleep(3000);
-            var clientScore = game.GetScoreForPlayer(currentPlayerIndex);
-            var opponentScore = game.GetScoreForPlayer(opponentIndex);
-            sendMessage(client, $"SCORE:{clientScore}");
-            TopScoresPlayersDatabase.SaveScore(playerName[client], clientScore);
-            sendMessage(opponent, $"SCORE:{opponentScore}");
-            TopScoresPlayersDatabase.SaveScore(playerName[client], opponentScore);
-            Thread.Sleep(1000);
-            var arrayScore = TopScoresPlayersDatabase.GetTopScores();
-            string result = "TOP_SCORES:";
-            for (int i = 0; i < arrayScore.Length; i++)
-            {
-                result += arrayScore[i] + ',';
-            }
-            sendMessage(client, result);
-            sendMessage(opponent, result);
+            
 
             // Убираем из словарей
-            games.Remove(client);
-            games.Remove(opponent);
             playerPairs.Remove(client);
             playerPairs.Remove(opponent);
         }
@@ -92,6 +76,17 @@ class NetworkGameStrategy : GameStrategy
                 sendMessage(opponent, "YOUR_TURN");
             }
         }
+    }
+
+    public override void GetTopScoreForPlayer(Socket client, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage)
+    {
+        var arrayScore = TopScoresPlayersDatabase.GetTopScores();
+        string result = "TOP_SCORES:";
+        for (int i = 0; i < arrayScore.Length; i++)
+        {
+            result += arrayScore[i] + ',';
+        }
+        sendMessage(client, result);
     }
 }
 
@@ -128,35 +123,28 @@ class AIPlayerGameStrategy : GameStrategy
             {
                 sendMessage(client, $"GAME_OVER:Вы проиграли.");
             }
-            
-            Thread.Sleep(3000);
-            var clientScore = game.GetScoreForPlayer(1);
-            sendMessage(client, $"SCORE:{clientScore}");
-            TopScoresComputerDatabase.SaveScore(playerName[client], clientScore);
-            Thread.Sleep(3000);
-            var arrayScore = TopScoresComputerDatabase.GetTopScores();
-            string result = "TOP_SCORES:";
-            for (int i = 0; i < arrayScore.Length; i++)
-            {
-                result += arrayScore[i] + ',';
-            }
-            sendMessage(client, result);
-
-            games.Remove(client);
+          
         }
         else
         {
-            // Логика для компьютера
-            if (!game.IsGameOver())
-            {
                 int aiPit = new Random().Next(0, 6);
                 while (!game.MakeMove(aiPit))
                 {
                     aiPit = new Random().Next(0, 6);
                 }
                 sendMessage(client, "BOARD_STATE:" + game.GetBoardState());
-            }
+            
         }
+    }
+    public override void GetTopScoreForPlayer(Socket client, Dictionary<Socket, string> playerName, Action<Socket, string> sendMessage)
+    {
+        var arrayScore = TopScoresComputerDatabase.GetTopScores();
+        string result = "TOP_SCORES:";
+        for (int i = 0; i < arrayScore.Length; i++)
+        {
+            result += arrayScore[i] + ',';
+        }
+        sendMessage(client, result);
     }
 
 }

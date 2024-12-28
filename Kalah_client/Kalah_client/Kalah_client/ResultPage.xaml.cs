@@ -37,6 +37,7 @@ namespace KalahClient
             {
                 PlayerScore.Text = $"Ваш результат: {parts[1]}";
             });
+            _client.SendMessage("TOP_SCORES");
         }
 
         private void HandleTopScore(string message)

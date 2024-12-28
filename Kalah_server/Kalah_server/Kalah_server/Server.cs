@@ -90,12 +90,20 @@ namespace Kalah_server
                     {
                         HandleSetModeRequest(clientSocket, receivedData);
                     }
+                    else if (receivedData.StartsWith("SCORE"))
+                    {
+                        HandleScoreRequest(clientSocket, receivedData);
+                    }
+                    else if (receivedData.StartsWith("TOP_SCORES"))
+                    {
+                        HandleTopScoreRequest(clientSocket, receivedData);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка при обработке клиента: {ex.Message}");
-                clients.Remove(clientSocket);
+                //clients.Remove(clientSocket);
             }
             finally
             {
@@ -127,7 +135,7 @@ namespace Kalah_server
 
             if (UserDatabase.UserExists(username))
             {
-                SendMessage(clientSocket, "ERROR: Username already exists.");
+                SendMessage(clientSocket, "ERROR:Такой пользователь уже существует.");
             }
             else
             {
@@ -151,7 +159,7 @@ namespace Kalah_server
             }
             else
             {
-                SendMessage(clientSocket, "ERROR: Invalid username or password.");
+                SendMessage(clientSocket, "ERROR:Неверный логин или пароль.");
             }
         }
 
@@ -247,6 +255,20 @@ namespace Kalah_server
                 }
             }
         }
+
+        static void HandleScoreRequest(Socket clientSocket, string request)
+        {
+            var game = games[clientSocket];
+            var clientScore = game.GetScoreForPlayer(1);
+            SendMessage(clientSocket, $"SCORE:{clientScore}");
+        }
+
+        static void HandleTopScoreRequest(Socket clientSocket, string reques)
+        {
+            GameStrategy strategy = strategies[clientSocket];
+            strategy.GetTopScoreForPlayer(clientSocket, playerName, SendMessage);
+        }
+        
 
         // Отправка сообщения клиенту
         static void SendMessage(Socket client, string message)

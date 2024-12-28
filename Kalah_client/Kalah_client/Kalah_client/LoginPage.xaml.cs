@@ -7,12 +7,14 @@ namespace KalahClient
     public partial class LoginPage : Page
     {
         private TcpKalahClient _client;
+        bool isConnected;
 
         public LoginPage()
         {
             InitializeComponent();
             _client = new TcpKalahClient(); 
             _client.OnMessageReceived += OnMessageReceived;
+            isConnected = _client.Connect("192.168.200.13", 4563);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -22,12 +24,10 @@ namespace KalahClient
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Please enter both username and password.");
+                MessageBox.Show("Все поля обязательны.");
                 return;
             }
-
-            // Подключаемся к серверу
-            bool isConnected = _client.Connect("192.168.200.13", 4563);
+            
             if (!isConnected)
             {
                 MessageBox.Show("Unable to connect to the server.");
@@ -46,12 +46,10 @@ namespace KalahClient
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Please enter both username and password.");
+                MessageBox.Show("Все поля обязательные.");
                 return;
             }
 
-            // Подключаемся к серверу
-            bool isConnected = _client.Connect("192.168.200.13", 4563); 
             if (!isConnected)
             {
                 MessageBox.Show("Unable to connect to the server.");
@@ -75,7 +73,8 @@ namespace KalahClient
                 }
                 else if (message.StartsWith("ERROR"))
                 {
-                    MessageBox.Show($"Server error: {message}");
+                    string[] responce = message.Split(':');
+                    MessageBox.Show($"{message[1]}");
                 }
             });
         }

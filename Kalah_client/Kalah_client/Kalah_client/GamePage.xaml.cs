@@ -38,8 +38,15 @@ namespace KalahClient
             {
                 MessageBox.Show("Ошибка: " + message.Substring(6));
             }
+            else if (message.StartsWith("WAITING_FOR_PLAYER"))
+            {
+                HendleWatingForPlayer(message);
+            }
         }
-
+        private void HendleWatingForPlayer(string message)
+        {
+            MessageBox.Show("Ожидаем подключения второго игрока");
+        }
 
         private void HendleUpdateBoardState(string state)
         {
@@ -88,6 +95,7 @@ namespace KalahClient
             {
                 MessageBox.Show($"Игра окончена. {winner}");
                 NavigateToResultPage();
+                _client.SendMessage("SCORE");
             });
         }
 
