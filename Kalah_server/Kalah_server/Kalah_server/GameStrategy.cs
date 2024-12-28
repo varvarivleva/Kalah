@@ -45,8 +45,16 @@ class NetworkGameStrategy : GameStrategy
         if (game.IsGameOver())
         {
             int winner = game.GetWinner();
-            sendMessage(client, $"GAME_OVER: Winner is Player {winner}");
-            sendMessage(opponent, $"GAME_OVER: Winner is Player {winner}");
+            if (winner == 1 && currentPlayerIndex == 1 || winner == 2 && currentPlayerIndex == 2)
+            {
+                sendMessage(client, "GAME_OVER: Вы виграли!");
+                sendMessage(opponent, "GAME_OVER: Вы проиграли");
+            }
+            else
+            {
+                sendMessage(client, "GAME_OVER: Вы проиграли");
+                sendMessage(opponent, "GAME_OVER: Вы выиграли!");
+            }
             Thread.Sleep(3000);
             var clientScore = game.GetScoreForPlayer(currentPlayerIndex);
             var opponentScore = game.GetScoreForPlayer(opponentIndex);
@@ -85,13 +93,6 @@ class NetworkGameStrategy : GameStrategy
             }
         }
     }
-
-
-    // Получение индекса игрока (1 или 2)
-    private int GetPlayerIndex(Socket client, Dictionary<Socket, Socket> playerPairs)
-    {
-        return playerPairs.ContainsKey(client) ? 1 : 2;
-    }
 }
 
 class AIPlayerGameStrategy : GameStrategy
@@ -111,7 +112,7 @@ class AIPlayerGameStrategy : GameStrategy
         string[] parts = request.Split(',');
         if (!int.TryParse(parts[1], out int pit) || !game.MakeMove(pit))
         {
-            sendMessage(client, "ERROR: Invalid move.");
+            sendMessage(client, "ERROR: Неверный ход. Попробуйте другой.");
             return;
         }
 
@@ -119,12 +120,20 @@ class AIPlayerGameStrategy : GameStrategy
         if (game.IsGameOver())
         {
             int winner = game.GetWinner();
-            sendMessage(client, $"GAME_OVER:Winner is Player {winner}");
+            if (winner == 1)
+            {
+                sendMessage(client, $"GAME_OVER:Вы выиграли!");
+            }
+            else
+            {
+                sendMessage(client, $"GAME_OVER:Вы проиграли.");
+            }
+            
             Thread.Sleep(3000);
             var clientScore = game.GetScoreForPlayer(1);
             sendMessage(client, $"SCORE:{clientScore}");
             TopScoresComputerDatabase.SaveScore(playerName[client], clientScore);
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
             var arrayScore = TopScoresComputerDatabase.GetTopScores();
             string result = "TOP_SCORES:";
             for (int i = 0; i < arrayScore.Length; i++)

@@ -16,7 +16,7 @@ namespace Kalah_server
         private static Dictionary<Socket, KalahGame> games = new Dictionary<Socket, KalahGame>(); // Игры
         private static Dictionary<Socket, GameStrategy> strategies = new Dictionary<Socket, GameStrategy>(); // Стратегии
         private static Dictionary<Socket, Socket> playerPairs = new Dictionary<Socket, Socket>(); // Пары игроков
-        private static Dictionary<Socket, int> playerScore = new Dictionary<Socket, int>(); // Пары игроков
+        private static Dictionary<Socket, int> playerScore = new Dictionary<Socket, int>(); // Счет игрока
         private static Dictionary<Socket, string> playerName = new Dictionary<Socket, string>(); // Имя игрока на сокете
         private static Queue<Socket> waitingRoom = new Queue<Socket>(); // Очередь ожидания
 
@@ -102,7 +102,6 @@ namespace Kalah_server
                 lock (lockObj)
                 {
                     clients.Remove(clientSocket); // Удаляем клиента из списка
-                                                  // Убираем из словарей
                     if (playerPairs.ContainsKey(clientSocket))
                     {
                         Socket opponent = playerPairs[clientSocket];
@@ -248,7 +247,6 @@ namespace Kalah_server
                 }
             }
         }
-
 
         // Отправка сообщения клиенту
         static void SendMessage(Socket client, string message)

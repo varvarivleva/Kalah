@@ -20,19 +20,19 @@ namespace KalahClient
         {
             if (message.StartsWith("BOARD_STATE"))
             {
-                UpdateBoardState(message);
+                HendleUpdateBoardState(message);
             }
             else if (message.StartsWith("YOUR_TURN"))
             {
-                UpdateTurn("TURN:0");
+                HendleUpdateTurn("TURN:0");
             }
             else if (message.StartsWith("WAIT_TURN"))
             {
-                UpdateTurn("TURN:1");
+                HendleUpdateTurn("TURN:1");
             }
             else if (message.StartsWith("GAME_OVER"))
             {
-                HandleGameOver(message);
+                HendleHandleGameOver(message);
             }
             else if (message.StartsWith("ERROR"))
             {
@@ -41,15 +41,15 @@ namespace KalahClient
         }
 
 
-        private void UpdateBoardState(string state)
+        private void HendleUpdateBoardState(string state)
         {
             string[] parts = state.Substring("BOARD_STATE:".Length).Split(',');
 
             Dispatcher.Invoke(() =>
             {
                 // Обновляем элементы интерфейса
-                PlayerKalaha.Content = "Kalah: " + parts[6];
-                OpponentKalaha.Content = "Kalah: " + parts[13];
+                PlayerKalaha.Content = "Калах: " + parts[6];
+                OpponentKalaha.Content = "Калах: " + parts[13];
 
                 // Лунки игрока
                 PlayerPit0.Content = parts[0];
@@ -69,7 +69,7 @@ namespace KalahClient
             });
         }
 
-        private void UpdateTurn(string message)
+        private void HendleUpdateTurn(string message)
         {
             string turn = message.Substring("TURN:".Length).Trim();
             _isPlayerTurn = (turn == "0");
@@ -80,14 +80,14 @@ namespace KalahClient
             });
         }
 
-        private void HandleGameOver(string message)
+        private void HendleHandleGameOver(string message)
         {
             string winner = message.Substring("GAME_OVER:".Length).Trim();
 
             Dispatcher.Invoke(() =>
             {
-                MessageBox.Show($"Игра окончена. Победитель: {winner}");
-                NavigateToResultPage(); // Возврат к выбору режима
+                MessageBox.Show($"Игра окончена. {winner}");
+                NavigateToResultPage();
             });
         }
 
@@ -106,6 +106,7 @@ namespace KalahClient
         }
         private void NavigateToResultPage()
         {
+            _client.ClearMessageReceivedHandlers();
             ResultPage resultPage = new ResultPage(_client);
             this.NavigationService.Navigate(resultPage);
         }

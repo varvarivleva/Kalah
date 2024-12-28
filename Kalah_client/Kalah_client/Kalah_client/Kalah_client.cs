@@ -73,6 +73,11 @@ namespace KalahClient
             }
         }
 
+        public void ClearMessageReceivedHandlers()
+        {
+            OnMessageReceived = null;
+        }
+
         public void Disconnect()
         {
             _clientSocket?.Close(); // Закрытие сокета

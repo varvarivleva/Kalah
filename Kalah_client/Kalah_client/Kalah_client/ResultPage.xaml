@@ -5,7 +5,7 @@
       Title="Results">
     <Grid Height="900" Width="1500">
         <TextBlock Text="Результаты игры" FontSize="48" Margin="544,30,544,793" FontWeight="Bold" TextAlignment="Center" />
-        <Button Content="Главное меню" Margin="400,706,294,94" Height="100" Width="700" FontSize="36" Background="#FF6BBB6B" />
+        <Button Content="Главное меню" Margin="400,706,294,94" Height="100" Width="700" FontSize="36" Background="#FF6BBB6B" Click="Button_Click" />
         <TextBlock Name ="PlayerScore" Text="Результаты игры" FontSize="48" Margin="113,119,233,695" />
         <TextBlock Text="Лучшие результаты" FontSize="48" Margin="505,227,505,595" FontWeight="Bold" TextAlignment="Center" />
         <TextBlock x:Name ="TopScores" Text="" FontSize="48" Margin="111,317,36,228" />

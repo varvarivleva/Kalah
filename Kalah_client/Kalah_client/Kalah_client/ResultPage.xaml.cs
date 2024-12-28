@@ -51,8 +51,9 @@ namespace KalahClient
             });
         }
 
-        private void MainMenuButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
+            _client.ClearMessageReceivedHandlers();
             NavigationService.Navigate(new GameModePage(_client));
         }
     }
